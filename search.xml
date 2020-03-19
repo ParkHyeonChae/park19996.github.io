@@ -4,6 +4,46 @@
   
     
     <entry>
+      <title>django02</title>
+      <link href="/2020/03/19/django02/"/>
+      <url>/2020/03/19/django02/</url>
+      
+        <content type="html"><![CDATA[<h1 id="게시글-테스트-2번째"><a href="#게시글-테스트-2번째" class="headerlink" title="게시글 테스트 2번째"></a>게시글 테스트 2번째</h1>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Django01-테스트게시글</title>
+      <link href="/2020/03/18/django01/"/>
+      <url>/2020/03/18/django01/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Django01-테스트작성게시글"><a href="#Django01-테스트작성게시글" class="headerlink" title="Django01_테스트작성게시글"></a>Django01_테스트작성게시글</h1><p>테스트테스트테스트<br>테스트</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Django </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> djagno </tag>
+            
+            <tag> test </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>테스트작성</title>
       <link href="/2020/03/16/test/"/>
       <url>/2020/03/16/test/</url>

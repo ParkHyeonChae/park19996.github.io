@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://parkhyeonchae.github.io/archive/index.html</loc>
+    
+    <lastmod>2020-03-18T21:59:05.835Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/tags/index.html</loc>
+    
+    <lastmod>2020-03-18T21:34:27.650Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/about/index.html</loc>
+    
+    <lastmod>2020-03-18T21:34:16.638Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/categories/index.html</loc>
+    
+    <lastmod>2020-03-18T21:17:29.795Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/19/django02/</loc>
+    
+    <lastmod>2020-03-18T19:31:03.951Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2019/11/01/Hexo-Theme-Snail/</loc>
+    
+    <lastmod>2020-03-18T13:31:30.522Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/18/django01/</loc>
+    
+    <lastmod>2020-03-17T17:22:12.055Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://parkhyeonchae.github.io/2020/03/16/test/</loc>
     
     <lastmod>2020-03-15T18:15:51.748Z</lastmod>
@@ -9,44 +58,9 @@
   </url>
   
   <url>
-    <loc>https://parkhyeonchae.github.io/tags/index.html</loc>
-    
-    <lastmod>2020-03-15T14:46:23.482Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://parkhyeonchae.github.io/photography/index.html</loc>
     
     <lastmod>2020-03-15T14:46:23.190Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/categories/index.html</loc>
-    
-    <lastmod>2020-03-15T14:46:22.838Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/archive/index.html</loc>
-    
-    <lastmod>2020-03-15T14:46:22.835Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/about/index.html</loc>
-    
-    <lastmod>2020-03-15T14:46:22.831Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/2019/11/01/Hexo-Theme-Snail/</loc>
-    
-    <lastmod>2020-03-15T14:46:22.739Z</lastmod>
     
   </url>
   

@@ -11,10 +11,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="description" content="Devlog">
     <meta name="keyword" content>
-    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <link rel="shortcut icon" href="/img/favicon.ico">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
     <title>
         
           Tags - Today.log
@@ -94,7 +98,7 @@
     header.intro-header{
         
             
-                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/img/header_img/tag-bg.jpg')
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/img/header_img/blog_background.jpg')
                 /*page*/
             
         
@@ -103,17 +107,12 @@
 </style>
 
 <header class="intro-header">
-    <!-- Signature -->
+
     <div id="signature">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>Tags</h1>
-                        <!--<hr class="small">-->
-                        <span id="subdusi" class="subheading">One way to get the most out of life is to look upon it as an adventure.</span>
-                    </div>
                 
 
                 </div>
@@ -156,8 +155,24 @@
                     <li>
                         <a href="/">Home</a>
                     </li>
-
+                    <li>
+                        <a href="/categories/">CATEGORIES</a>
+                    </li>
+                    <li>
+                        <a href="/archives/">ARCHIVES</a>
+                    </li>
+                    <li>
+                        <a href="/tags/">TAGS</a>
+                    </li>
+                    <li>
+                        <a href="/about/">ABOUT</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/ParkHyeonChae" target="_blank" rel="external nofollow noopener noreferrer">GITHUB</a>
+                    </li>
                     
+
+                    <!-- 
 
                         
                     
@@ -195,7 +210,7 @@
                             <a href="/tags/">Tags</a>
                         </li>
                         
-                    
+                     -->
                     
                     <!--  -->
                 </ul>
@@ -243,14 +258,44 @@
             <!-- 标签云 -->
             <div id="tag_clouds" class="tags">
                 
+                    <a href="#hexo-theme-snail" title="hexo-theme-snail" rel="1">hexo-theme-snail</a>
+                
                     <a href="#테스트" title="테스트" rel="1">테스트</a>
                 
-                    <a href="#hexo-theme-snail" title="hexo-theme-snail" rel="1">hexo-theme-snail</a>
+                    <a href="#djagno" title="djagno" rel="1">djagno</a>
+                
+                    <a href="#test" title="test" rel="1">test</a>
                 
             </div>
 
             <!-- 标签列表 -->
 
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="hexo-theme-snail">
+                    <span class="tag-text">hexo-theme-snail</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2019/11/01/Hexo-Theme-Snail/">
+                        <h2 class="post-title">
+                            Hexo-Theme-Snail
+                        </h2>
+                        
+                            <h3 class="post-subtitle">
+                                A succinct hexo theme.
+                            </h3>
+                        
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
             
             <div class="one-tag-list">
                 <span class="fa fa-tag listing-seperator" id="테스트">
@@ -275,8 +320,8 @@
             </div>
             
             <div class="one-tag-list">
-                <span class="fa fa-tag listing-seperator" id="hexo-theme-snail">
-                    <span class="tag-text">hexo-theme-snail</span>
+                <span class="fa fa-tag listing-seperator" id="djagno">
+                    <span class="tag-text">djagno</span>
                 </span>
                 
                   <!-- <li class="listing-item">
@@ -284,14 +329,32 @@
                   <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
                   </li> -->
                  <div class="post-preview">
-                     <a href="/2019/11/01/Hexo-Theme-Snail/">
+                     <a href="/2020/03/18/django01/">
                         <h2 class="post-title">
-                            Hexo-Theme-Snail
+                            Django01-테스트게시글
                         </h2>
                         
-                            <h3 class="post-subtitle">
-                                A succinct hexo theme.
-                            </h3>
+                    </a>
+                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="test">
+                    <span class="tag-text">test</span>
+                </span>
+                
+                  <!-- <li class="listing-item">
+                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
+                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
+                  </li> -->
+                 <div class="post-preview">
+                     <a href="/2020/03/18/django01/">
+                        <h2 class="post-title">
+                            Django01-테스트게시글
+                        </h2>
                         
                     </a>
                     <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
@@ -471,7 +534,7 @@
 
     <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
     
-        <script src="/js/ribbonDynamic.js"></script>
+        <!-- <script src="/js/ribbonDynamic.js"></script> -->
     
 <script type="text/x-mathjax-config">
     MathJax.Hub.Config({

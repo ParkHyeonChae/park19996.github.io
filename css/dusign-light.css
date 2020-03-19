@@ -22,8 +22,10 @@
   color: #808080 !important;
   text-decoration: none;
 }
+/* custom sidebar font color */
 .sidebar-container a {
-  color: #bfbfbf !important;
+  color: #7b7b7b  !important;
+  /* font-weight: 550; */
 }
 .sidebar-container a:hover,
 .sidebar-container a:active {
@@ -237,6 +239,39 @@ pre code {
   border-color: #0085a1;
 }
 
+
+/* navbar custom margin_ipad */
+@media only screen and (max-width: 769px) {
+  .navbar-custom .navbar-brand {
+    font-weight: 800;
+    color: white;
+    height: 56px;
+    line-height: 25px;
+    /* navbar custom margin */
+    margin-top: -11px;
+  }
+  .navbar-custom .nav li a {
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    /* navbar custom margin */
+    margin-top: -9px;
+  }
+}
+/* navbar custom margin_mobilephone */
+@media only screen and (max-width: 415px) {
+  .navbar-custom .navbar-brand {
+    font-weight: 800;
+    color: white;
+    height: 56px;
+    line-height: 25px;
+    /* navbar custom margin */
+    margin-top: -8px;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .navbar-default .navbar-collapse {
     border: none;
@@ -309,6 +344,7 @@ pre code {
   color: white;
   height: 56px;
   line-height: 25px;
+
 }
 .navbar-custom .navbar-brand:hover {
   color: rgba(255, 255, 255, 0.8);
@@ -335,6 +371,7 @@ pre code {
     color: white;
     padding: 20px;
     line-height: 20px;
+    
   }
   .navbar-custom .navbar-brand:hover,
   .navbar-custom .navbar-brand:focus {
@@ -904,6 +941,8 @@ body {
   margin-right: 2px;
   margin-bottom: 2px;
   border-radius: 50%;
+  /* navbar custom margin */
+  margin-top: -6px;
 }
 .navbar-default .navbar-toggle .icon-bar {
   width: 18px;

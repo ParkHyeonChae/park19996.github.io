@@ -15,8 +15,48 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>Devlog</description>
-    <pubDate>Sun, 15 Mar 2020 18:15:51 GMT</pubDate>
+    <pubDate>Wed, 18 Mar 2020 19:31:03 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>django02</title>
+      <link>https://parkhyeonchae.github.io/2020/03/19/django02/</link>
+      <guid>https://parkhyeonchae.github.io/2020/03/19/django02/</guid>
+      <pubDate>Wed, 18 Mar 2020 19:30:20 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;h1 id=&quot;게시글-테스트-2번째&quot;&gt;&lt;a href=&quot;#게시글-테스트-2번째&quot; class=&quot;headerlink&quot; title=&quot;게시글 테스트 2번째&quot;&gt;&lt;/a&gt;게시글 테스트 2번째&lt;/h1&gt;
+        
+      
+      </description>
+      
+      
+      <content:encoded><![CDATA[<h1 id="게시글-테스트-2번째"><a href="#게시글-테스트-2번째" class="headerlink" title="게시글 테스트 2번째"></a>게시글 테스트 2번째</h1>]]></content:encoded>
+      
+      <comments>https://parkhyeonchae.github.io/2020/03/19/django02/#disqus_thread</comments>
+    </item>
+    
+    <item>
+      <title>Django01-테스트게시글</title>
+      <link>https://parkhyeonchae.github.io/2020/03/18/django01/</link>
+      <guid>https://parkhyeonchae.github.io/2020/03/18/django01/</guid>
+      <pubDate>Tue, 17 Mar 2020 17:19:33 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;h1 id=&quot;Django01-테스트작성게시글&quot;&gt;&lt;a href=&quot;#Django01-테스트작성게시글&quot; class=&quot;headerlink&quot; title=&quot;Django01_테스트작성게시글&quot;&gt;&lt;/a&gt;Django01_테스트작성게시글&lt;/h1&gt;&lt;p&gt;테스트테스트테스트&lt;
+        
+      
+      </description>
+      
+      
+      <content:encoded><![CDATA[<h1 id="Django01-테스트작성게시글"><a href="#Django01-테스트작성게시글" class="headerlink" title="Django01_테스트작성게시글"></a>Django01_테스트작성게시글</h1><p>테스트테스트테스트<br>테스트</p>]]></content:encoded>
+      
+      <comments>https://parkhyeonchae.github.io/2020/03/18/django01/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>테스트작성</title>
