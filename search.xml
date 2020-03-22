@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>Django 02. 가상환경 설정, Django 설치</title>
+      <link href="/2020/03/23/django-project-02/"/>
+      <url>/2020/03/23/django-project-02/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Django-02-가상환경-설정-Django-설치"><a href="#Django-02-가상환경-설정-Django-설치" class="headerlink" title="Django 02. 가상환경 설정, Django 설치"></a>Django 02. 가상환경 설정, Django 설치</h1><blockquote><p>Python Virtualenv로 가상환경을 구축하고 Django프레임워크를 설치합니다.</p></blockquote><hr><h2 id="1-Python-Virtualenv-설치"><a href="#1-Python-Virtualenv-설치" class="headerlink" title="1. Python Virtualenv 설치"></a>1. Python Virtualenv 설치</h2><p>python 가상환경 pip인 virtualenv를 설치합니다.</p><p>설치환경은 <strong>window</strong>, python 버전은 <strong>3.7.4</strong> 입니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install virtualenv</span><br></pre></td></tr></table></figure><p>Cs-web이란 프로젝트 폴더를 생성한 후 env란 이름의 가상환경폴더를 생성해줍니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd Cs-web</span><br><span class="line">$ virtualenv env</span><br></pre></td></tr></table></figure><p>window환경에서 가상환경을 실행하기 위해 설치된 django_env 폴더의 Scripts 경로로 이동 후 activate 명령을 통해 가상환경을 실행합니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cd env</span><br><span class="line">$ cd Scripts</span><br><span class="line">$ activate</span><br></pre></td></tr></table></figure><p>아래와 같이 가상환경이 실행된 것을 알 수 있습니다. 가상환경에서 빠져나오는 명령어는 deactivate입니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(env) C:\Users\&lt;username&gt;\desktop\Cs-Web\env\Scripts</span><br></pre></td></tr></table></figure><h2 id="2-Django-설치"><a href="#2-Django-설치" class="headerlink" title="2. Django 설치"></a>2. Django 설치</h2><p>현재 제가 사용하고 있는 django 버전은 3.0.2이므로 그대로 설치해주도록 하겠습니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip insatll django&#x3D;&#x3D;3.0.2</span><br></pre></td></tr></table></figure><p>2020-03-23 기준으로 django 최신버전은 3.0.4 입니다.  <strong><a href="https://www.djangoproject.com/download/" target="_blank" rel="external nofollow noopener noreferrer">Django 최신버전 확인</a></strong></p><p>2버전에서 3버전으로 넘어오면서 MariaDB와 ASGI를 지원, 그 밖에 필터표현식, 자잘한 변경사항이 추가되었습니다.</p><p>프로젝트 진행중에 구글링을 많이 활용했었는데, django 3버전 미만의 소스코드들이 실행이 되지 않는 상황이 종종 있었습니다. 뿐만 아니라 django-multiselectfield 등과 같은 유용한 패키지들이 django 버전에 맞추어 업데이트가 되지 않는 상황이라 굳이 3버전을 설치할 필요는 없습니다.</p><p><strong><a href="https://docs.djangoproject.com/en/dev/releases/3.0/" target="_blank" rel="external nofollow noopener noreferrer">Django 3버전 릴리스노트</a></strong></p><p><strong><a href="https://pypi.org/search/?q=django" target="_blank" rel="external nofollow noopener noreferrer">Django 버전별 패키지 확인하기</a></strong></p><h2 id="3-Django-프로젝트-생성"><a href="#3-Django-프로젝트-생성" class="headerlink" title="3. Django 프로젝트 생성"></a>3. Django 프로젝트 생성</h2><p>cs_web 이름의 django 프로젝트를 생성하는 명령은 다음과 같습니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ django-admin startproject cs_web</span><br></pre></td></tr></table></figure><p>아래와 같은 구조로 생성되게 됩니다.</p><p><img src="02-1.PNG" alt="django-project-02"></p><p>cs_web 경로로 이동 후 django 서버를 실행해봅니다.</p><p>django 서버 실행 명령어인 manage.py runserver는 개발환경에서의 <strong>django 테스트앱서버</strong>를 실행하는 것으로 프로젝트 완성 후 배포할 때에는 nginx, apache등을 사용해 웹서버를 분리 후 배포하는 것을 권장하고 있습니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd cs_web</span><br><span class="line">$ python manage.py runserver</span><br></pre></td></tr></table></figure><p>127.0.0.1로 접속하면 다음과 같은 django 테스트서버가 실행된 것을 확인할 수 있습니다.</p><p><img src="02-2.PNG" alt="django-project-02"></p><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> Django 프로젝트 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Django </tag>
+            
+            <tag> Python </tag>
+            
+            <tag> virtualenv </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Django 01. 프로젝트 소개</title>
       <link href="/2020/03/22/django-project-01/"/>
       <url>/2020/03/22/django-project-01/</url>
