@@ -159,14 +159,14 @@
                         <a href="/categories/">CATEGORIES</a>
                     </li>
                     <li>
-                        <a href="/archives/">ARCHIVES</a>
+                        <a href="/archive/">ARCHIVES</a>
                     </li>
                     <li>
                         <a href="/tags/">TAGS</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="/about/">ABOUT</a>
-                    </li>
+                    </li> -->
                     <li>
                         <a href="https://github.com/ParkHyeonChae" target="_blank" rel="external nofollow noopener noreferrer">GITHUB</a>
                     </li>
@@ -279,39 +279,19 @@
     sidebar-container
 ">
     
-        
-<!--
-<h5>SEARCH</h5>
-<div class="search-article" class="tags">
-	<input id="search-kw" type="text" name="search_article" placeholder="Enter keywords for search" />
-	<div class="search-img">
-		<img 
-			src="/img/search.png" 
-			alt="search" 
-			onMouseOver="this.src='/img/search-focus.png'" 
-			onMouseOut="this.src='/img/search.png'"/>
-	</div>
-</div>-->
-
-<h5>SEARCH</h5>
-<div id="site_search">
-	<div class="form-group">
-		<input type="text" id="local-search-input" name="q" results="0" placeholder="search" class="st-search-input st-default-search-input form-control">
-	</div>  
-	<div id="local-search-result"></div>
-</div>
-
-        <hr>
-    
         <!-- Short About -->
 <section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
+    <!-- <h5><a href="/about/">ABOUT ME</a></h5> -->
+    <h5><i class="fas fa-user"></i>&nbsp;&nbsp;ABOUT ME</h5>
     <div class="short-about">
 
         
             <img id="avatar_pic" src="/img/avatar.png">
         
-
+        <div style="margin-top:-15px; color:gray !important; font-size:12px !important;">
+            &nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;Inje Uni. DB LAB<br>
+            &nbsp;<i class="fas fa-envelope"></i>&nbsp;gitbash@kakao.com
+            </div>
         
 
         <!-- SNS Link -->
@@ -345,8 +325,44 @@
 </section>
         <hr>
     
+        <!-- Categories -->
+
+    <h5><i class="fas fa-list"></i>&nbsp;&nbsp;CATEGORIES</h5>
+    <div class="widget">
+      <ul style="list-style-type:none; padding-left:10px !important;">
         
-  <h5>VISITORS</h5>
+          <a href="/categories/#Django 프로젝트">
+            <li style="font-size: 15px !important;">
+              - Django 프로젝트
+            </li>
+          </a>
+        
+      </ul>
+    </div>
+
+        <hr>
+    
+        <!-- Featured Tags -->
+
+<section>
+    <!-- no hr -->
+    <!-- <h5><a href="/tags/">&nbsp;태그</a></h5> -->
+    <h5><i class="fas fa-tags"></i>&nbsp;&nbsp;TAGS</h5>
+    <div class="tags">
+        
+            
+        
+            
+        
+    </div>
+</section>
+
+        <hr>
+    
+        
+  <!-- <h5>VISITORS</h5> -->
+  <!-- <h5><i class="fas fa-eye"></i>&nbsp;&nbsp;방문수</h5> -->
+  <h5><i class="fas fa-eye"></i>&nbsp;&nbsp;VISITORS</h5>
   <div class="widget">
     <span>
     	Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
@@ -359,72 +375,27 @@
 
         <hr>
     
-        <!-- Categories -->
+        
+<!--
+<h5>SEARCH</h5>
+<div class="search-article" class="tags">
+	<input id="search-kw" type="text" name="search_article" placeholder="Enter keywords for search" />
+	<div class="search-img">
+		<img 
+			src="/img/search.png" 
+			alt="search" 
+			onMouseOver="this.src='/img/search-focus.png'" 
+			onMouseOut="this.src='/img/search.png'"/>
+	</div>
+</div>-->
 
-    <h5>categories</h5>
-    <div class="widget">
-      <ul>
-        
-          <a href="categories/#hexo"><li>hexo</li></a>
-        
-          <a href="categories/#Django"><li>Django</li></a>
-        
-      </ul>
-    </div>
-
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h5>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/2020/03/19/django02/">django02</a>
-        </li>
-      
-        <li>
-          <a href="/2020/03/18/django01/">Django01-테스트게시글</a>
-        </li>
-      
-        <li>
-          <a href="/2020/03/16/test/">테스트작성</a>
-        </li>
-      
-        <li>
-          <a href="/2019/11/01/Hexo-Theme-Snail/">Hexo-Theme-Snail</a>
-        </li>
-      
-    </ul>
-  </div>
-
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">3월 2020</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">11월 2019</a><span class="archive-list-count">1</span></li></ul>
-    </div>
-
-        <hr>
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    </div>
-</section>
+<h5><i class="fas fa-search"></i>&nbsp;&nbsp;SEARCH</h5>
+<div id="site_search">
+	<div class="form-group">
+		<input type="text" id="local-search-input" name="q" results="0" placeholder="검색어를 입력해주세요." class="st-search-input st-default-search-input form-control">
+	</div>  
+	<div id="local-search-result"></div>
+</div>
 
         <hr>
     

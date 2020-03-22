@@ -15,7 +15,7 @@
 }
 .sidebar-container h5 {
   color: #808080;
-  padding-bottom: 1em;
+  padding-bottom: 0.3em;
   text-transform: uppercase
 }
 .sidebar-container h5 a {
@@ -29,14 +29,14 @@
 }
 .sidebar-container a:hover,
 .sidebar-container a:active {
-  color: #0085a1 !important;
+  color: gray !important;
 }
 .sidebar-container .tags a {
   border-color: #bfbfbf;
 }
 .sidebar-container .tags a:hover,
 .sidebar-container .tags a:active {
-  border-color: #0085a1;
+  border-color: gray;
 }
 
 .sidebar-container .short-about img {
@@ -66,7 +66,7 @@ body {
   overflow-x: hidden;
 }
 p {
-  margin: 30px 0;
+  margin: 20px 0;
 }
 h1,
 h2,
@@ -92,7 +92,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0085a1;
+  color: gray;
 }
 a img:hover,
 a img:focus {
@@ -168,15 +168,17 @@ pre code {
 }
 .post-container a:hover,
 .post-container a:focus {
-  color: #0085a1;
+  color: gray;
 }
-.post-container h1,
+.post-container h1 {
+  margin: 10px 0 10px;
+}
 .post-container h2,
 .post-container h3,
 .post-container h4,
 .post-container h5,
 .post-container h6 {
-  margin: 30px 0 10px;
+  margin: 50px 0 10px;
 }
 .post-container h5 {
   font-size: 19px;
@@ -235,8 +237,8 @@ pre code {
 }
 .post-container .tags a:hover,
 .post-container .tags a:active {
-  color: #0085a1;
-  border-color: #0085a1;
+  color: gray;
+  border-color: gray;
 }
 
 
@@ -418,14 +420,14 @@ pre code {
   }
   .navbar-custom.is-fixed .navbar-brand:hover,
   .navbar-custom.is-fixed .navbar-brand:focus {
-    color: #0085a1;
+    color: gray;
   }
   .navbar-custom.is-fixed .nav li a {
     color: #404040;
   }
   .navbar-custom.is-fixed .nav li a:hover,
   .navbar-custom.is-fixed .nav li a:focus {
-    color: #0085a1;
+    color: gray;
   }
   .navbar-custom.is-visible {
     /* if the user changes the scrolling direction, we show the header */
@@ -553,7 +555,7 @@ pre code {
 .post-preview > a:hover,
 .post-preview > a:focus {
   text-decoration: none;
-  color: #0085a1;
+  color: gray;
 }
 .post-preview > a > .post-title {
   font-size: 21px;
@@ -571,9 +573,9 @@ pre code {
 .post-preview > .post-meta {
   font-family: 'Lora', 'Times New Roman', serif;
   color: #808080;
-  font-size: 16px;
-  font-style: italic;
-  margin-top: 0;
+  font-size: 15px !important;
+  /* font-style: italic; */
+  margin-top: -3px;
 }
 .post-preview > .post-meta > a {
   text-decoration: none;
@@ -581,7 +583,7 @@ pre code {
 }
 .post-preview > .post-meta > a:hover,
 .post-preview > .post-meta > a:focus {
-  color: #0085a1;
+  color: gray;
   text-decoration: underline;
 }
 @media only screen and (min-width: 768px) {
@@ -599,12 +601,12 @@ pre code {
 }
 .post-content-preview {
   font-size: 13px;
-  font-style: italic;
+  /* font-style: italic; */
   color: #a3a3a3;
 }
-.post-content-preview:hover {
-  color: #0085a1;
-}
+/* .post-content-preview:hover {
+  color: gray;
+} */
 @media only screen and (min-width: 768px) {
   .post-content-preview {
     font-size: 14px;
@@ -643,7 +645,7 @@ footer .copyright a {
 }
 footer .copyright a:hover,
 footer .copyright a:focus {
-  color: #0085a1;
+  color: gray;
 }
 .floating-label-form-group {
   font-size: 14px;
@@ -690,7 +692,7 @@ footer .copyright a:focus {
   opacity: 1;
 }
 .floating-label-form-group-with-focus label {
-  color: #0085a1;
+  color: gray;
 }
 form .row:first-child .floating-label-form-group {
   border-top: 1px solid #eeeeee;
@@ -716,8 +718,8 @@ form .row:first-child .floating-label-form-group {
 }
 .btn-default:hover,
 .btn-default:focus {
-  background-color: #0085a1;
-  border: 1px solid #0085a1;
+  background-color: gray;
+  border: 1px solid gray;
   color: white;
 }
 .pager {
@@ -754,8 +756,8 @@ form .row:first-child .floating-label-form-group {
 .pager li > a:hover,
 .pager li > a:focus {
   color: white;
-  background-color: #0085a1;
-  border: 1px solid #0085a1;
+  background-color: gray;
+  border: 1px solid gray;
 }
 .pager .disabled > a,
 .pager .disabled > a:hover,
@@ -768,12 +770,12 @@ form .row:first-child .floating-label-form-group {
 ::-moz-selection {
   color: white;
   text-shadow: none;
-  background: #0085a1;
+  background: gray;
 }
 ::selection {
   color: white;
   text-shadow: none;
-  background: #0085a1;
+  background: gray;
 }
 img::selection {
   color: white;
@@ -784,7 +786,7 @@ img::-moz-selection {
   background: transparent;
 }
 body {
-  webkit-tap-highlight-color: #0085a1;
+  webkit-tap-highlight-color: gray;
 }
 /* Hux add tags support */
 .tags {
@@ -836,13 +838,13 @@ body {
   line-height: 28px;
   margin: 0 2px;
   margin-bottom: 8px;
-  background: #D6D6D6;
+  background: gray;
 }
 #tag_clouds a:hover,
 #tag_clouds .tag:hover,
 #tag_clouds a:active,
 #tag_clouds .tag:active {
-  background-color: #0085a1 !important;
+  background-color: #1b1b1b !important;
 }
 @media only screen and (min-width: 768px) {
   #tag_clouds {
@@ -861,7 +863,7 @@ body {
   margin-top: 0px;
 }
 .listing-seperator {
-  color: #0085a1;
+  color: gray;
   font-size: 21px !important;
 }
 .listing-seperator::before {
