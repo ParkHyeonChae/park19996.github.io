@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/26/django-project-07/</loc>
+    
+    <lastmod>2020-03-25T22:16:42.619Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-06/</loc>
     
     <lastmod>2020-03-25T19:00:11.447Z</lastmod>
