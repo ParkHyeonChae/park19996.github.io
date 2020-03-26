@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="DICttDftb2e-MtGdZNwFp5qVinH-TC13-MFfUBJTCp0">
+    <meta name="naver-site-verification" content="8aae91ad51f520c383688a6477b7c766eb917f50">
+    <meta name="baidu-site-verification" content="093lY4ziMu">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Devlog">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    
+    <!-- Google Adsense -->
+    <script data-ad-client="ca-pub-5030093973610333" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+    <title>
+        
+          Django 09. 로그인, 로그아웃 구현 - Today.log
+        
+    </title>
+
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/03/27/django-project-09/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/03/27/django-project-09/">
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/rss2.xml" title="Today.log" type="application/rss+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart>
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/header_img/blog_background.jpg')
+                /*post*/
+            
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Today.log</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/categories/">CATEGORIES</a>
+                    </li>
+                    <li>
+                        <a href="/archive/">ARCHIVES</a>
+                    </li>
+                    <li>
+                        <a href="/tags/">TAGS</a>
+                    </li>
+                    <!-- <li>
+                        <a href="/about/">ABOUT</a>
+                    </li> -->
+                    <li>
+                        <a href="https://github.com/ParkHyeonChae" target="_blank" rel="external nofollow noopener noreferrer">GITHUB</a>
+                    </li>
+                    
+
+                    <!-- 
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    <!--  -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <div style="text-align: right;">
+                    <span style="color:gray;">
+                        2020-03-27
+                    </span>
+                </div>
+
+                <h1 id="Django-09-로그인-로그아웃-구현"><a href="#Django-09-로그인-로그아웃-구현" class="headerlink" title="Django 09. 로그인, 로그아웃 구현"></a>Django 09. 로그인, 로그아웃 구현</h1><blockquote>
+<p>Django Authentication에서 제공하는 기능을 사용하여 사용자 로그인, 로그아웃을 구현합니다.</p>
+</blockquote>
+<hr>
+<h2 id="1-로그인-forms-py-작성"><a href="#1-로그인-forms-py-작성" class="headerlink" title="1. 로그인 forms.py 작성"></a>1. 로그인 forms.py 작성</h2><p>Login을 구현하기 위해 사용할 form을 먼저 구현하겠습니다. <strong>users app</strong>의 <strong>forms.py</strong>에 해쉬화된 비밀번호를 검사하는 <strong>check_password</strong>를 import 한 후 아래의 소스를 입력합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># users&#x2F;forms.py</span><br><span class="line"></span><br><span class="line">class LoginForm(forms.Form):</span><br><span class="line">    user_id &#x3D; forms.CharField(</span><br><span class="line">        widget&#x3D;forms.TextInput(</span><br><span class="line">        attrs&#x3D;&#123;&#39;class&#39;: &#39;form-control&#39;,&#125;), </span><br><span class="line">        error_messages&#x3D;&#123;&#39;required&#39;: &#39;아이디을 입력해주세요.&#39;&#125;,</span><br><span class="line">        max_length&#x3D;17,</span><br><span class="line">        label&#x3D;&#39;아이디&#39;</span><br><span class="line">    )</span><br><span class="line">    password &#x3D; forms.CharField(</span><br><span class="line">        widget&#x3D;forms.PasswordInput(</span><br><span class="line">        attrs&#x3D;&#123;&#39;class&#39;: &#39;form-control&#39;,&#125;), </span><br><span class="line">        error_messages&#x3D;&#123;&#39;required&#39;: &#39;비밀번호를 입력해주세요.&#39;&#125;,</span><br><span class="line">        label&#x3D;&#39;비밀번호&#39;</span><br><span class="line">    )</span><br><span class="line">    </span><br><span class="line">    def clean(self):</span><br><span class="line">        cleaned_data &#x3D; super().clean()</span><br><span class="line">        user_id &#x3D; cleaned_data.get(&#39;user_id&#39;)</span><br><span class="line">        password &#x3D; cleaned_data.get(&#39;password&#39;)</span><br><span class="line"></span><br><span class="line">        if user_id and password:</span><br><span class="line">            try:</span><br><span class="line">               user &#x3D; User.objects.get(user_id&#x3D;user_id)</span><br><span class="line">            except User.DoesNotExist:</span><br><span class="line">                self.add_error(&#39;user_id&#39;, &#39;아이디가 존재하지 않습니다.&#39;)</span><br><span class="line">                return</span><br><span class="line">            </span><br><span class="line">            if not check_password(password, user.password):</span><br><span class="line">                self.add_error(&#39;password&#39;, &#39;비밀번호가 틀렸습니다.&#39;)</span><br></pre></td></tr></table></figure>
+<p>LoginForm 클래스를 생성한 뒤 입력필드에 맞는 적절한 <strong>widget</strong>을 삽입합니다. </p>
+<p>clean 함수를 클래스 내부에 추가하고 해당 입력값에 맞는 표준 형식으로 변환하기 위해 <strong>cleaned_data</strong>로 form에 입력된 user_id와 password 값을 담아두고 검사하여 아이디 존재여부와 비밀번호 오류를 form에서 처리하도록 구현하였습니다.</p>
+<p><strong><a href="https://docs.djangoproject.com/en/3.0/ref/forms/widgets/" target="_blank" rel="external nofollow noopener noreferrer">Django Forms Widgets 공식문서</a></strong></p>
+<h2 id="2-로그인-views-py-작성"><a href="#2-로그인-views-py-작성" class="headerlink" title="2. 로그인 views.py 작성"></a>2. 로그인 views.py 작성</h2><p>Django에서 제공하는 로그인 기능을 사용하기 위해 contrib.auth의 <strong>login</strong>, <strong>authenticate</strong> 와 Generic View인 <strong>FormView</strong>를 import 한 후 users app의 <strong>views.py</strong>에 아래의 코드를 입력합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># users&#x2F;views.py</span><br><span class="line"></span><br><span class="line">from .forms import LoginForm</span><br><span class="line">from django.contrib.auth import login, authenticate</span><br><span class="line">from django.views.generic import FormView</span><br><span class="line"></span><br><span class="line">@method_decorator(logout_message_required, name&#x3D;&#39;dispatch&#39;)</span><br><span class="line">class LoginView(FormView):</span><br><span class="line">    template_name &#x3D; &#39;users&#x2F;login.html&#39;</span><br><span class="line">    form_class &#x3D; LoginForm</span><br><span class="line">    success_url &#x3D; &#39;&#x2F;users&#x2F;main&#x2F;&#39;</span><br><span class="line"></span><br><span class="line">    def form_valid(self, form):</span><br><span class="line">        user_id &#x3D; form.cleaned_data.get(&quot;user_id&quot;)</span><br><span class="line">        password &#x3D; form.cleaned_data.get(&quot;password&quot;)</span><br><span class="line">        user &#x3D; authenticate(self.request, username&#x3D;user_id, password&#x3D;password)</span><br><span class="line">        </span><br><span class="line">        if user is not None:</span><br><span class="line">            self.request.session[&#39;user_id&#39;] &#x3D; user_id</span><br><span class="line">            login(self.request, user)</span><br><span class="line"></span><br><span class="line">        return super().form_valid(form)</span><br></pre></td></tr></table></figure>
+<p>마찬가지로 이미 로그인 중인 사용자의 접근을 막기 위해 <strong>logout_message_required</strong>를 사용하고, 직접 구현한 decorators의 user객체를 비교하기 위해 <strong>user_id</strong>란 이름의 세션에 로그인한 <strong>user_id</strong> 값을 추가합니다. form_valid를 통과한 user 객체가 존재한다면 로그인을 한 후 작성되어 있는 main페이지로 이동하게됩니다.</p>
+<h2 id="3-로그아웃-views-py-작성"><a href="#3-로그아웃-views-py-작성" class="headerlink" title="3.  로그아웃 views.py 작성"></a>3.  로그아웃 views.py 작성</h2><p>Django의 <strong>logout</strong>을 호출하면 현재 요청에 대한 세션이 모두 제거됩니다. views.py에 <strong>logout</strong>을 import 한 후 아래의 코드를 입력합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># users&#x2F;views.py</span><br><span class="line"></span><br><span class="line">from django.contrib.auth import logout</span><br><span class="line"></span><br><span class="line">def logout_view(request):</span><br><span class="line">    logout(request)</span><br><span class="line">    return redirect(&#39;&#x2F;&#39;)</span><br></pre></td></tr></table></figure>
+<h2 id="4-urls-py-작성"><a href="#4-urls-py-작성" class="headerlink" title="4. urls.py 작성"></a>4. urls.py 작성</h2><p>구현한 login, logout view를 연결하기 위해 <strong>urls.py</strong>의 <strong>urlpatterns</strong>에 아래의 코드를 추가합니다. 로그인 성공시 이동할 main path도 함께 추가합니다. main페이지 구현은 따로 포스팅하지 않겠습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># users&#x2F;urls.py</span><br><span class="line"></span><br><span class="line">path(&#39;main&#x2F;&#39;, views.main_view, name&#x3D;&#39;main&#39;),</span><br><span class="line">path(&#39;login&#x2F;&#39;, views.LoginView.as_view(), name&#x3D;&#39;login&#39;),</span><br><span class="line">path(&#39;logout&#x2F;&#39;, views.logout_view, name&#x3D;&#39;logout&#39;),</span><br></pre></td></tr></table></figure>
+<h2 id="5-templates-작성"><a href="#5-templates-작성" class="headerlink" title="5. templates 작성"></a>5. templates 작성</h2><p>templates의 <strong>users</strong>폴더에 <strong>login.html</strong>을 생성하고 아래의 코드를 입력합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;users&#x2F;login.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;form method&#x3D;&quot;POST&quot; action&#x3D;&quot;.&quot; novalidate&gt;</span><br><span class="line">    &#123;% csrf_token %&#125;</span><br><span class="line">    &lt;div class&#x3D;&quot;mb-4 md-form&quot;&gt;</span><br><span class="line">        &lt;label name&#x3D;&quot;label_user_id&quot; for&#x3D;&quot;&#123;&#123; form.user_id.id_for_label &#125;&#125;&quot;&gt;</span><br><span class="line">            &lt;i class&#x3D;&quot;fas fa-user&quot;&gt;&lt;&#x2F;i&gt;&amp;nbsp;&amp;nbsp;&#123;&#123; form.user_id.label &#125;&#125;</span><br><span class="line">        &lt;&#x2F;label&gt;</span><br><span class="line">        &#123;&#123; form.user_id &#125;&#125;</span><br><span class="line">        &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">            if (document.getElementsByName(&#39;user_id&#39;)[0].value !&#x3D; &#39;&#39;) &#123;</span><br><span class="line">                document.getElementsByName(&#39;label_user_id&#39;)[0].setAttribute(&#39;class&#39;, &#39;active&#39;);</span><br><span class="line">            &#125;</span><br><span class="line">        &lt;&#x2F;script&gt;</span><br><span class="line">        &#123;% if form.user_id.errors %&#125;</span><br><span class="line">        &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">            document.getElementsByName(&#39;user_id&#39;)[0].setAttribute(&#39;class&#39;, &#39;form-control is-invalid&#39;)</span><br><span class="line">        &lt;&#x2F;script&gt;</span><br><span class="line">        &#123;% for error in form.user_id.errors %&#125;</span><br><span class="line">        &lt;div class&#x3D;&quot;invalid-feedback&quot;&gt;</span><br><span class="line">            &#123;&#123; error &#125;&#125;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">        &#123;% endfor %&#125;</span><br><span class="line">        &#123;% endif %&#125;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br></pre></td></tr></table></figure>
+<p>위 소스는 login.html의 user_id 입력 필드입니다. <strong>{ { form.user_id } }</strong>로 forms.py에서 설정한 <strong>widget type</strong>을 생성하고 <strong>add_error</strong>가 있다면 <strong>erros</strong> 값으로 넘어와 오류를 출력하게 됩니다. password 입력 필드 또한 ‘user_id’ 부분을 forms.py에서 지정한 ‘password’로 바꿔 작성하면 로그인 템플릿 구현이 완료됩니다.</p>
+<h2 id="6-결과"><a href="#6-결과" class="headerlink" title="6. 결과"></a>6. 결과</h2><p><img src="09-1.JPG" alt="django-project-09"></p>
+<p><img src="09-2.JPG" alt="django-project-09"></p>
+<p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
+<hr>
+
+
+                
+                    <section>
+                        <div class="tags">
+                        
+                            <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                            
+                            <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                        </div>
+                    </section>
+                
+                <!-- <hr> -->
+                <!-- Pager -->
+                <!-- <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/03/26/django-project-08/" data-toggle="tooltip" data-placement="top" title="Django 08. SMTP 회원가입 인증메일 구현">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
+                    </li>
+                    
+                </ul> -->
+
+                <!-- tip start -->
+                
+
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        <!-- <strong class="toc-title">목차</strong> -->
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-09-로그인-로그아웃-구현"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 09. 로그인, 로그아웃 구현</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-로그인-forms-py-작성"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. 로그인 forms.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-로그인-views-py-작성"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. 로그인 views.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-로그아웃-views-py-작성"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3.  로그아웃 views.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-urls-py-작성"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. urls.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-templates-작성"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. templates 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-결과"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. 결과</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+
+      <script>
+        document.getElementsByClassName('toc-nav-text')[0].setAttribute('style','font-weight:550;')
+        var tocNum = document.getElementsByClassName('toc-nav-number').length;
+        for(var i=0; i<tocNum; i++) {
+          document.getElementsByClassName('toc-nav-number')[i].setAttribute('hidden', true)
+        }
+      </script>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                <!-- 
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                        
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                </section>
+                 -->
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "today-log";
+    var disqus_identifier = "https://parkhyeonchae.github.io/2020/03/27/django-project-09/";
+    var disqus_url = "https://parkhyeonchae.github.io/2020/03/27/django-project-09/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/ParkHyeonChae" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; ParkHyeonChae 2020 
+                    <br>
+                    <!-- Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe> -->
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://parkhyeonchae.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-160874008-1';
+    var _gaDomain = 'https://parkhyeonchae.github.io/';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<!-- <a id="rocket" href="#top" class=""></a> -->
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <!-- <script src="/js/ribbonDynamic.js"></script> -->
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
