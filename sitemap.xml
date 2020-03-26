@@ -2,51 +2,58 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/26/django-project-07/</loc>
+    <loc>https://parkhyeonchae.github.io/2020/03/26/django-project-08/</loc>
     
-    <lastmod>2020-03-25T22:16:42.619Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-06/</loc>
-    
-    <lastmod>2020-03-25T19:00:11.447Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-05/</loc>
-    
-    <lastmod>2020-03-25T15:46:55.378Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-04/</loc>
-    
-    <lastmod>2020-03-25T13:33:58.154Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/23/django-project-03/</loc>
-    
-    <lastmod>2020-03-24T10:18:37.565Z</lastmod>
+    <lastmod>2020-03-26T19:15:01.658Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://parkhyeonchae.github.io/2020/03/23/django-project-02/</loc>
     
-    <lastmod>2020-03-23T21:26:37.503Z</lastmod>
+    <lastmod>2020-03-26T17:05:08.387Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/26/django-project-07/</loc>
+    
+    <lastmod>2020-03-26T16:28:21.104Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-06/</loc>
+    
+    <lastmod>2020-03-26T16:23:59.871Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-05/</loc>
+    
+    <lastmod>2020-03-26T12:55:54.675Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-04/</loc>
+    
+    <lastmod>2020-03-26T12:51:17.023Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/23/django-project-03/</loc>
+    
+    <lastmod>2020-03-26T12:49:29.748Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://parkhyeonchae.github.io/2020/03/22/django-project-01/</loc>
     
-    <lastmod>2020-03-23T21:25:37.196Z</lastmod>
+    <lastmod>2020-03-26T12:22:40.308Z</lastmod>
     
   </url>
   
