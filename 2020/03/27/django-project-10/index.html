@@ -23,11 +23,11 @@
 
     <title>
         
-          Today.log
+          Django 10. 로그인 상태 유지하기 구현 - Today.log
         
     </title>
 
-    <link rel="canonical" href="https://parkhyeonchae.github.io/archives/2020/03/">
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/03/27/django-project-10/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -82,7 +82,7 @@
     <!-- ga & ba script hoook -->
     <script></script>
 
-    <link rel="canonical" href="https://parkhyeonchae.github.io/archives/2020/03/">
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/03/27/django-project-10/">
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/rss2.xml" title="Today.log" type="application/rss+xml">
 </head>
 
@@ -100,8 +100,8 @@
     header.intro-header{
         
             
-                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/undefined')
-                /*page*/
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/header_img/blog_background.jpg')
+                /*post*/
             
         
     }
@@ -253,340 +253,163 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
 
-    <!-- Post Container -->
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-                
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 归档列表 -->
-            
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-             <!-- 归档列表 -->
+                <div style="text-align: right;">
+                    <span style="color:gray;">
+                        2020-03-27
+                    </span>
+                </div>
 
-            
-            <div class="one-tag-list">
-                <span id="2020">
-                    <span class="tag-text" style="font-weight: bold !important; font-size: 30px !important;">2020</span>
-                </span>
-                <ul style="list-style-type:none; padding-left:10px !important;">
+                <h1 id="Django-10-로그인-상태-유지하기-구현"><a href="#Django-10-로그인-상태-유지하기-구현" class="headerlink" title="Django 10. 로그인 상태 유지하기 구현"></a>Django 10. 로그인 상태 유지하기 구현</h1><blockquote>
+<p>사용자의 선택에 따라 클라이언트 프로세스 종료시에도 접속 상태를 유지할 수 있도록 구현합니다.</p>
+</blockquote>
+<hr>
+<h2 id="1-settings-py-설정"><a href="#1-settings-py-설정" class="headerlink" title="1. settings.py 설정"></a>1. settings.py 설정</h2><p>Dango의 login 세션은 기본적으로 브라우저 등과 같은 클라이언트의 프로세스를 종료해도 서버단에서 세션을 유지시키기 때문에 logout 함수 실행 전까지 사용자의 세션이 남아있게 됩니다. 로그인 창에서 Checkbox를 통해 사용자가 로그인 상태를 유지할 것인지 직접 선택하게 하기 위해 <strong>settings.py</strong>에 아래의 소스를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># cs_web&#x2F;settings.py</span><br><span class="line"></span><br><span class="line">SESSION_EXPIRE_AT_BROWSER_CLOSE &#x3D; True</span><br></pre></td></tr></table></figure>
+<p>위 소스를 추가함으로써 프로세스의 종료시 세션을 만료시키도록 설정합니다. default 설정은 False입니다.</p>
+<p><em>*브라우저가 종료되었음을 서버에서 탐지할 수는 없으므로 브라우저가 그냥 종료될 때 세션이 만료되는 것이 아니라 프로세스는 살아있기에 프로세스를 종료해야 세션이 삭제됩니다.</em></p>
+<p><strong><a href="https://django.readthedocs.io/en/1.4.X/topics/http/sessions.html" target="_blank" rel="external nofollow noopener noreferrer">Django Session 문서</a></strong></p>
+<h2 id="2-views-py-수정"><a href="#2-views-py-수정" class="headerlink" title="2. views.py 수정"></a>2. views.py 수정</h2><p>로그인 창에서 로그인 상태 유지 Checkbox를 통해 넘어온 값을 확인하여 settings.py의 세션 만료 설정을 False로 변경하는 소스를 <strong>views.py</strong>의 <strong>LoginView</strong> 클래스 내 login(self.request, user) 소스 아래에 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># users&#x2F;views.py</span><br><span class="line"></span><br><span class="line">from django.conf import settings</span><br><span class="line"></span><br><span class="line">if user is not None:</span><br><span class="line">    self.request.session[&#39;user_id&#39;] &#x3D; user_id</span><br><span class="line">    login(self.request, user)</span><br><span class="line">    remember_session &#x3D; self.request.POST.get(&#39;remember_session&#39;, False)</span><br><span class="line">    if remember_session:</span><br><span class="line">        settings.SESSION_EXPIRE_AT_BROWSER_CLOSE &#x3D; False</span><br></pre></td></tr></table></figure>
+<h2 id="3-templates-수정"><a href="#3-templates-수정" class="headerlink" title="3. templates 수정"></a>3. templates 수정</h2><p>사용자가 로그인 상태 유지 checkbox를 선택하고 로그인을 진행할 시 view에서는 remember_session의 유무를 비교하도록 <strong>login.html</strong>의 <strong>form</strong>내부에 아래와 같이 remember_session이란 name 값을 가지는 checkbox를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;users&#x2F;login.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;label&gt;</span><br><span class="line">    &lt;input type&#x3D;&quot;checkbox&quot; name&#x3D;&quot;remember_session&quot;&#x2F;&gt;</span><br><span class="line">    &lt;span&gt;로그인 상태 유지&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure>
+<p> 사용자의 로그인 상태유지 선택에 따라 세션 유지를 확인해보면 잘 적용되어 동작하는 것을 확인할 수 있습니다.</p>
+<p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
+<hr>
+
+
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-27&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/27/django-project-10/" style="color: gray">
-                        <span>
-                            Django 10. 로그인 상태 유지하기 구현
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                    <section>
+                        <div class="tags">
+                        
+                            <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                            
+                            <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                        </div>
+                    </section>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-27&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/27/django-project-09/" style="color: gray">
-                        <span>
-                            Django 09. 로그인, 로그아웃 구현
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <!-- <hr> -->
+                <!-- Pager -->
+                <!-- <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/03/27/django-project-09/" data-toggle="tooltip" data-placement="top" title="Django 09. 로그인, 로그아웃 구현">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
+                    </li>
+                    
+                </ul> -->
+
+                <!-- tip start -->
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-26&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/26/django-project-08/" style="color: gray">
-                        <span>
-                            Django 08. SMTP 회원가입 인증메일 구현
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-26&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/26/django-project-07/" style="color: gray">
-                        <span>
-                            Django 07. 회원가입 구현
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <!-- tip end -->
+
+                <!-- Music start-->
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-25&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/25/django-project-06/" style="color: gray">
-                        <span>
-                            Django 06. 회원가입 이용약관 동의 구현
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <!-- Music end -->
+
+                <!-- Sharing -->
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-25&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/25/django-project-05/" style="color: gray">
-                        <span>
-                            Django 05. 사용권한 Decorator 구현
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <!-- Sharing -->
+
+                <!-- gitment start -->
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-25&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/25/django-project-04/" style="color: gray">
-                        <span>
-                            Django 04. 사용자 앱 모델 생성/연결
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-23&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/23/django-project-03/" style="color: gray">
-                        <span>
-                            Django 03. Settings.py 초기설정
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-23&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/23/django-project-02/" style="color: gray">
-                        <span>
-                            Django 02. 가상환경 설정, Django 설치
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li>
-                    03-22&nbsp;-&nbsp;
-                    <!-- <i class="fa fa-angle-double-right" aria-hidden="true"></i> -->
-                    <a href="/2020/03/22/django-project-01/" style="color: gray">
-                        <span>
-                            Django 01. 프로젝트 소개
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                </ul>
+                <!-- disqus comment end -->
             </div>
             
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
 
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        <!-- <strong class="toc-title">목차</strong> -->
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-10-로그인-상태-유지하기-구현"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 10. 로그인 상태 유지하기 구현</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-settings-py-설정"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. settings.py 설정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-views-py-수정"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. views.py 수정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-templates-수정"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. templates 수정</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+
+      <script>
+        document.getElementsByClassName('toc-nav-text')[0].setAttribute('style','font-weight:550;')
+        var tocNum = document.getElementsByClassName('toc-nav-number').length;
+        for(var i=0; i<tocNum; i++) {
+          document.getElementsByClassName('toc-nav-number')[i].setAttribute('hidden', true)
+        }
+      </script>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                <!-- 
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                        
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                </section>
+                 -->
+
+                <!-- Friends Blog -->
+                
+            </div>
         </div>
     </div>
-</div>
-            </div>
+</article>
 
-            <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <!-- <h5><a href="/about/">ABOUT ME</a></h5> -->
-    <h5><i class="fas fa-user"></i>&nbsp;&nbsp;ABOUT ME</h5>
-    <div class="short-about">
 
-        
-            <img id="avatar_pic" src="/img/avatar.png">
-        
-        <div style="margin-top:-15px; color:gray !important; font-size:12px !important;">
-            &nbsp;<i class="fas fa-map-marker-alt"></i>&nbsp;Inje Uni. DB LAB<br>
-            &nbsp;<i class="fas fa-envelope"></i>&nbsp;gitbash@kakao.com
-            </div>
-        
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "today-log";
+    var disqus_identifier = "https://parkhyeonchae.github.io/2020/03/27/django-project-10/";
+    var disqus_url = "https://parkhyeonchae.github.io/2020/03/27/django-project-10/";
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
 
-            <!-- 
-                <li>
-                    <a target="_blank"  href="https://github.com/ParkHyeonChae">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-             -->
 
-            
 
-            
-
-            
-
-            
-
-            
-
-            
-
-        </ul>
-    </div>
-</section>
-        <hr>
-    
-        <!-- Categories -->
-
-    <h5><i class="fas fa-list"></i>&nbsp;&nbsp;CATEGORIES</h5>
-    <div class="widget">
-      <ul style="list-style-type:none; padding-left:10px !important;">
-        
-          <a href="/categories/#Django 프로젝트">
-            <li style="font-size: 15px !important;">
-              - Django 프로젝트
-            </li>
-          </a>
-        
-      </ul>
-    </div>
-
-        <hr>
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <!-- <h5><a href="/tags/">&nbsp;태그</a></h5> -->
-    <h5><i class="fas fa-tags"></i>&nbsp;&nbsp;TAGS</h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#Django" title="Django" rel="10">Django</a>
-            
-        
-            
-            <a href="/tags/#Python" title="Python" rel="10">Python</a>
-            
-        
-            
-        
-            
-        
-            
-        
-    </div>
-</section>
-
-        <hr>
-    
-        
-  <!-- <h5>VISITORS</h5> -->
-  <!-- <h5><i class="fas fa-eye"></i>&nbsp;&nbsp;방문수</h5> -->
-  <h5><i class="fas fa-eye"></i>&nbsp;&nbsp;VISITORS</h5>
-  <div class="widget">
-    <span>
-    	Viewed <b><i><span id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Times
-	</span>
-	<br>
-	<span>
-		<b><i><span id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></span></i></b> Visitors In Total
-	</span>
-  </div>
-
-        <hr>
-    
-        
-<!--
-<h5>SEARCH</h5>
-<div class="search-article" class="tags">
-	<input id="search-kw" type="text" name="search_article" placeholder="Enter keywords for search" />
-	<div class="search-img">
-		<img 
-			src="/img/search.png" 
-			alt="search" 
-			onMouseOver="this.src='/img/search-focus.png'" 
-			onMouseOut="this.src='/img/search.png'"/>
-	</div>
-</div>-->
-
-<h5><i class="fas fa-search"></i>&nbsp;&nbsp;SEARCH</h5>
-<div id="site_search">
-	<div class="form-group">
-		<input type="text" id="local-search-input" name="q" results="0" placeholder="검색어를 입력해주세요." class="st-search-input st-default-search-input form-control">
-	</div>  
-	<div id="local-search-result"></div>
-</div>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->
