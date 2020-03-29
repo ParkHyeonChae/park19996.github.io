@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/30/django-project-12/</loc>
+    
+    <lastmod>2020-03-29T20:55:32.565Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-06/</loc>
+    
+    <lastmod>2020-03-29T18:53:51.597Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-04/</loc>
+    
+    <lastmod>2020-03-29T18:51:58.627Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://parkhyeonchae.github.io/2020/03/29/django-project-11/</loc>
     
-    <lastmod>2020-03-29T17:01:50.328Z</lastmod>
+    <lastmod>2020-03-29T17:14:06.355Z</lastmod>
     
   </url>
   
@@ -30,13 +51,6 @@
   </url>
   
   <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-06/</loc>
-    
-    <lastmod>2020-03-29T15:41:02.400Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://parkhyeonchae.github.io/2020/03/27/django-project-10/</loc>
     
     <lastmod>2020-03-28T14:54:38.003Z</lastmod>
@@ -54,13 +68,6 @@
     <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-05/</loc>
     
     <lastmod>2020-03-26T12:55:54.675Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://parkhyeonchae.github.io/2020/03/25/django-project-04/</loc>
-    
-    <lastmod>2020-03-26T12:51:17.023Z</lastmod>
     
   </url>
   
