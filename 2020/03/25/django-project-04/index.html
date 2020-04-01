@@ -23,7 +23,7 @@
 
     <title>
         
-          Django 04. 사용자 앱 모델 생성/연결 - Today.log
+          Django 04. 사용자 앱 모델 생성 / 연결 - Today.log
         
     </title>
 
@@ -270,13 +270,13 @@
                     </span>
                 </div>
 
-                <h1 id="Django-04-사용자-앱-모델-생성-연결"><a href="#Django-04-사용자-앱-모델-생성-연결" class="headerlink" title="Django 04. 사용자 앱 모델 생성/연결"></a>Django 04. 사용자 앱 모델 생성/연결</h1><blockquote>
+                <h1 id="Django-04-사용자-앱-모델-생성-연결"><a href="#Django-04-사용자-앱-모델-생성-연결" class="headerlink" title="Django 04. 사용자 앱 모델 생성 / 연결"></a>Django 04. 사용자 앱 모델 생성 / 연결</h1><blockquote>
 <p>사용자 앱인 users app을 생성하고 models, admin, urls를 설정합니다. </p>
 </blockquote>
 <hr>
 <h2 id="1-users앱-생성"><a href="#1-users앱-생성" class="headerlink" title="1. users앱 생성"></a>1. users앱 생성</h2><p>manage.py가 있는 경로에 아래의 명령어로 프로젝트의 사용자계정 부분을 담당하는 <strong>users app</strong>을 생성합니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ django-admin startapp users</span><br></pre></td></tr></table></figure>
-<p>django 서버 실행 시 settings.py 에서 생성한 users app을 읽어올 수 있도록 <strong>settings.py</strong>의 <strong>INSTALLED_APPS</strong>에  추가해줍니다.</p>
+<p>django 서버 실행 시 settings.py 에서 생성한 users app을 읽어올 수 있도록 <strong>settings.py</strong>의 <strong>INSTALLED_APPS</strong>에 추가해줍니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># cs_web&#x2F;settings.py</span><br><span class="line"></span><br><span class="line">INSTALLED_APPS &#x3D; [</span><br><span class="line">    &#39;django.contrib.admin&#39;,</span><br><span class="line">    &#39;django.contrib.auth&#39;,</span><br><span class="line">    &#39;django.contrib.contenttypes&#39;,</span><br><span class="line">    &#39;django.contrib.sessions&#39;,</span><br><span class="line">    &#39;django.contrib.messages&#39;,</span><br><span class="line">    &#39;django.contrib.staticfiles&#39;,</span><br><span class="line">    &#39;users.apps.UsersConfig&#39;, # 추가 부분</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 <p><em>*일반적으로 ‘users’ 와 같이 app이름만 추가하셔도 상관은 없으나, django convention이며 시그널 또는 apps 파일에서 Config를 사용하는 경우가 있기에 저 형식으로 코드를 추가해줍니다.</em></p>
 <h2 id="2-urls-py-생성"><a href="#2-urls-py-생성" class="headerlink" title="2. urls.py 생성"></a>2. urls.py 생성</h2><p>app별로 urls를 관리하기 위해 <strong>users</strong> 앱 내부에 <strong>urls.py</strong>를 생성한 후 아래와 같은 코드를 작성합니다.</p>
@@ -440,7 +440,7 @@
         <strong class="toc-title">Contents</strong>
         <!-- <strong class="toc-title">목차</strong> -->
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-04-사용자-앱-모델-생성-연결"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 04. 사용자 앱 모델 생성&#x2F;연결</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-users앱-생성"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. users앱 생성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-urls-py-생성"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. urls.py 생성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-models-py-작성"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. models.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-admin-py-작성"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. admin.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-DB-Migrate"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. DB Migrate</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-Super계정-생성"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. Super계정 생성</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-04-사용자-앱-모델-생성-연결"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 04. 사용자 앱 모델 생성 &#x2F; 연결</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-users앱-생성"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. users앱 생성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-urls-py-생성"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. urls.py 생성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-models-py-작성"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. models.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-admin-py-작성"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. admin.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-DB-Migrate"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. DB Migrate</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-Super계정-생성"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. Super계정 생성</span></a></li></ol></li></ol>
         
         </div>
       </aside>
