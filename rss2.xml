@@ -15,8 +15,28 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description>Devlog</description>
-    <pubDate>Sat, 04 Apr 2020 12:55:53 GMT</pubDate>
+    <pubDate>Wed, 08 Apr 2020 10:44:19 GMT</pubDate>
     <generator>http://hexo.io/</generator>
+    
+    <item>
+      <title>Django 20. 글 조회수 GET중복방지 구현</title>
+      <link>https://parkhyeonchae.github.io/2020/04/04/django-project-20/</link>
+      <guid>https://parkhyeonchae.github.io/2020/04/04/django-project-20/</guid>
+      <pubDate>Sat, 04 Apr 2020 13:02:46 GMT</pubDate>
+      <description>
+      
+        
+        
+          &lt;h1 id=&quot;Django-20-글-조회수-GET중복방지-구현&quot;&gt;&lt;a href=&quot;#Django-20-글-조회수-GET중복방지-구현&quot; class=&quot;headerlink&quot; title=&quot;Django 20. 글 조회수 GET중복방지 구현&quot;&gt;&lt;/a&gt;Django 
+        
+      
+      </description>
+      
+      
+      <content:encoded><![CDATA[<h1 id="Django-20-글-조회수-GET중복방지-구현"><a href="#Django-20-글-조회수-GET중복방지-구현" class="headerlink" title="Django 20. 글 조회수 GET중복방지 구현"></a>Django 20. 글 조회수 GET중복방지 구현</h1><blockquote><p>Cookie를 사용해 새로고침 등 게시글을 조회할 때마다 조회수가 증가하지 않도록 구현합니다.</p></blockquote><hr><h2 id="1-views-py-수정"><a href="#1-views-py-수정" class="headerlink" title="1. views.py 수정"></a>1. views.py 수정</h2><p>사용자가 게시글을 클릭할 시 이전의 게시판 모델을 생성할 때 추가한 조회수 필드인 hits가 증가하도록 구현하기 위해서 <strong>Cookie</strong>를 사용합니다.</p><p><strong>*Django 2</strong>버전대를 사용하시는 분이면 조회수 플러그인인 <strong>django-hitcount</strong>를 사용하실 수 있습니다. 현재까지 나온 <strong>django-hitcount 1.3.1</strong>버전은 <strong>Django 3</strong>버전을 지원하지 않습니다.</p><p><strong><a href="https://pypi.org/project/django-hitcount/" target="_blank" rel="external nofollow noopener noreferrer">Django-Hitcount</a></strong></p><p>Cookie를 사용한 조회수 증가를 구현하기 위해 <strong>notice</strong>앱 <strong>views.py</strong>의 <strong>notice_detail_view</strong>에 아래의 소스를 추가로 입력합니다.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;views.py</span><br><span class="line"></span><br><span class="line">@login_message_required</span><br><span class="line">def notice_detail_view(request, pk):</span><br><span class="line">    notice &#x3D; get_object_or_404(Notice, pk&#x3D;pk)</span><br><span class="line">    session_cookie &#x3D; request.session[&#39;user_id&#39;]</span><br><span class="line">    cookie_name &#x3D; F&#39;notice_hits:&#123;session_cookie&#125;&#39;</span><br><span class="line">    context &#x3D; &#123;</span><br><span class="line">        &#39;notice&#39;: notice,</span><br><span class="line">    &#125;</span><br><span class="line">    response &#x3D; render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br><span class="line"></span><br><span class="line">    if request.COOKIES.get(cookie_name) is not None:</span><br><span class="line">        cookies &#x3D; request.COOKIES.get(cookie_name)</span><br><span class="line">        cookies_list &#x3D; cookies.split(&#39;|&#39;)</span><br><span class="line">        if str(pk) not in cookies_list:</span><br><span class="line">            response.set_cookie(cookie_name, cookies + f&#39;|&#123;pk&#125;&#39;, expires&#x3D;None)</span><br><span class="line">            notice.hits +&#x3D; 1</span><br><span class="line">            notice.save()</span><br><span class="line">            return response</span><br><span class="line">    else:</span><br><span class="line">        response.set_cookie(cookie_name, pk, expires&#x3D;None)</span><br><span class="line">        notice.hits +&#x3D; 1</span><br><span class="line">        notice.save()</span><br><span class="line">        return response</span><br><span class="line"></span><br><span class="line">    return render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br></pre></td></tr></table></figure><p>session_cookie 변수에 현재 접속된 사용자를 담아두고, 게시글을 조회했을시 생성할 cookie_name에 <strong>f-string</strong>을 사용해서 접속한 사용자의 아이디를 삽입 할 수 있게 합니다. </p><p>Python에서 cookie를 생성하는 방법은 <strong>set_cookie</strong> 메소드를 사용하여 생성할 수 있고, 클라이언트의 쿠키를 얻는 방법은 <strong>request.COOKIES.get(쿠키이름)</strong> 으로 cookie를 얻을 수 있습니다.</p><p>그후 cookie_name의 유무를 확인하여 접속된 사용자의 cookie가 있는 경우, 사용자가 게시글을 조회할때마다 게시글의 pk인 id값을 추가하고 hits를 증가시킵니다.</p><h2 id="2-결과"><a href="#2-결과" class="headerlink" title="2. 결과"></a>2. 결과</h2><p><img src="20-1.GIF" alt="django-project-20"></p><p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p><hr>]]></content:encoded>
+      
+      <comments>https://parkhyeonchae.github.io/2020/04/04/django-project-20/#disqus_thread</comments>
+    </item>
     
     <item>
       <title>Django 19. 게시글 상세보기 구현</title>

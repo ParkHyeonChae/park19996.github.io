@@ -23,11 +23,11 @@
 
     <title>
         
-          Django 19. 게시글 상세보기 구현 - Today.log
+          Django 20. 글 조회수 GET중복방지 구현 - Today.log
         
     </title>
 
-    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/03/django-project-19/">
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/04/django-project-20/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -82,7 +82,7 @@
     <!-- ga & ba script hoook -->
     <script></script>
 
-    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/03/django-project-19/">
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/04/django-project-20/">
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/rss2.xml" title="Today.log" type="application/rss+xml">
 </head>
 
@@ -266,24 +266,23 @@
 
                 <div style="text-align: right;">
                     <span style="color:gray;">
-                        2020-04-03
+                        2020-04-04
                     </span>
                 </div>
 
-                <h1 id="Django-19-게시글-상세보기-구현"><a href="#Django-19-게시글-상세보기-구현" class="headerlink" title="Django 19. 게시글 상세보기 구현"></a>Django 19. 게시글 상세보기 구현</h1><blockquote>
-<p>FBV로 글보기를 구현하고, 템플릿에서 각 글 리스트에 ID를 매겨 이동할수 있도록 구현합니다.</p>
+                <h1 id="Django-20-글-조회수-GET중복방지-구현"><a href="#Django-20-글-조회수-GET중복방지-구현" class="headerlink" title="Django 20. 글 조회수 GET중복방지 구현"></a>Django 20. 글 조회수 GET중복방지 구현</h1><blockquote>
+<p>Cookie를 사용해 새로고침 등 게시글을 조회할 때마다 조회수가 증가하지 않도록 구현합니다.</p>
 </blockquote>
 <hr>
-<h2 id="1-views-py-작성"><a href="#1-views-py-작성" class="headerlink" title="1. views.py 작성"></a>1. views.py 작성</h2><p>글 리스트에서 게시글을 선택할시 정해진 ID값으로 글 상세보기 창으로 이동되는 view를 작성하기 위해 <strong>notice</strong>앱의 <strong>views.py</strong>에 아래의 소스를 입력합니다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;views.py</span><br><span class="line"></span><br><span class="line">from users.decorators import login_message_required</span><br><span class="line">from django.shortcuts import get_object_or_404</span><br><span class="line"></span><br><span class="line">@login_message_required</span><br><span class="line">def notice_detail_view(request, pk):</span><br><span class="line">    notice &#x3D; get_object_or_404(Notice, pk&#x3D;pk)</span><br><span class="line">    context &#x3D; &#123;</span><br><span class="line">        &#39;notice&#39;: notice,</span><br><span class="line">    &#125;</span><br><span class="line">    return render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br></pre></td></tr></table></figure>
-<p>로그인한 사용자만 접근을 허용하기 위해 decorator를 추가합니다. 그 후 템플릿에 설정한 게시글의 <strong>pk</strong>값인 <strong>id</strong>를 인자로 받아 단일 객체를 반환하는 <strong>get_object_or_404</strong>를 import하여 사용합니다. <strong>get_object_or_404</strong>는 해당 모델에서 지정된 값을 찾아 있으면 반환하고 없으면 404에러를 발생시킵니다. 그 후 반환된 context를 담아 게시글 상세보기 창으로 render합니다.</p>
-<h2 id="2-urls-py-작성"><a href="#2-urls-py-작성" class="headerlink" title="2. urls.py 작성"></a>2. urls.py 작성</h2><p>게시글 상세보기의 url경로를 선택한 글의 ID로 표시하기 위해 <strong>urls.py</strong>의 <strong>urlpatterns</strong>에 아래의 path를 추가합니다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;urls.py</span><br><span class="line"></span><br><span class="line">path(&#39;&lt;int:pk&gt;&#x2F;&#39;, views.notice_detail_view, name&#x3D;&#39;notice_detail&#39;),</span><br></pre></td></tr></table></figure>
-<h2 id="3-templates-작성"><a href="#3-templates-작성" class="headerlink" title="3. templates 작성"></a>3. templates 작성</h2><p><strong>templates</strong>의 <strong>notice</strong>폴더에 <strong>notice_detail.html</strong>을 생성하고 get_object_or_404으로 반환된 context를 전달받는 소스를 입력합니다. </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;notice&#x2F;notice_detail.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;card&quot;&gt;</span><br><span class="line">    &lt;!--제목,분류,작성일--&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;card-header&quot;&gt;</span><br><span class="line">        &lt;strong&gt;&#123;&#123; notice.title &#125;&#125;&lt;&#x2F;strong&gt;&lt;span&gt;[공지사항]&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;span&gt;&#123;&#123; notice.registered_date|date:&#39;Y.m.d. H:i&#39; &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;card-body&quot;&gt;</span><br><span class="line">        &lt;!--작성자, 조회수--&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;span&gt;작성자 : &#123;&#123; notice.writer &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">            &lt;span&gt;조회수 : &#123;&#123; notice.hits &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;!--내용--&gt;</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &#123;&#123; notice.content &#125;&#125;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div&gt;</span><br><span class="line">    &lt;button onclick&#x3D;&quot;location.href&#x3D;&#39;&#x2F;notice&#x2F;&#39;&quot;&gt;목록으로&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
-<p>이전에 구현해둔 글 리스트보기 템플릿인 <strong>notice_list.html</strong>에 각 게시글을 클릭할시 지정된 path 경로로 이동할 수 있도록 <strong>onclick</strong>속성에 각 게시글의 <strong>pk</strong>값인 <strong>id</strong>경로를 추가합니다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;notice&#x2F;notice_list.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;tr class&#x3D;&quot;text-center&quot; style&#x3D;&quot;cursor:pointer;&quot; onclick&#x3D;&quot;location.href&#x3D;&#39;&#x2F;notice&#x2F;&#123;&#123; notice.id &#125;&#125;&#x2F;&#39;&quot;&gt;</span><br><span class="line">    &lt;td&gt;&#123;&#123; notice.id &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">    &lt;td&gt;&#123;&#123; notice.title|truncatechars:30 &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">    &lt;td&gt;&#123;&#123; notice.writer &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">    &lt;td&gt;&#123;&#123; notice.registered_date|date:&#39;Y. m. d&#39; &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">    &lt;td&gt;&#123;&#123; notice.hits &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">&lt;&#x2F;tr&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="4-결과"><a href="#4-결과" class="headerlink" title="4. 결과"></a>4. 결과</h2><p><img src="19-1.GIF" alt="django-project-19"></p>
+<h2 id="1-views-py-수정"><a href="#1-views-py-수정" class="headerlink" title="1. views.py 수정"></a>1. views.py 수정</h2><p>사용자가 게시글을 클릭할 시 이전의 게시판 모델을 생성할 때 추가한 조회수 필드인 hits가 증가하도록 구현하기 위해서 <strong>Cookie</strong>를 사용합니다.</p>
+<p><strong>*Django 2</strong>버전대를 사용하시는 분이면 조회수 플러그인인 <strong>django-hitcount</strong>를 사용하실 수 있습니다. 현재까지 나온 <strong>django-hitcount 1.3.1</strong>버전은 <strong>Django 3</strong>버전을 지원하지 않습니다.</p>
+<p><strong><a href="https://pypi.org/project/django-hitcount/" target="_blank" rel="external nofollow noopener noreferrer">Django-Hitcount</a></strong></p>
+<p>Cookie를 사용한 조회수 증가를 구현하기 위해 <strong>notice</strong>앱 <strong>views.py</strong>의 <strong>notice_detail_view</strong>에 아래의 소스를 추가로 입력합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;views.py</span><br><span class="line"></span><br><span class="line">@login_message_required</span><br><span class="line">def notice_detail_view(request, pk):</span><br><span class="line">    notice &#x3D; get_object_or_404(Notice, pk&#x3D;pk)</span><br><span class="line">    session_cookie &#x3D; request.session[&#39;user_id&#39;]</span><br><span class="line">    cookie_name &#x3D; F&#39;notice_hits:&#123;session_cookie&#125;&#39;</span><br><span class="line">    context &#x3D; &#123;</span><br><span class="line">        &#39;notice&#39;: notice,</span><br><span class="line">    &#125;</span><br><span class="line">    response &#x3D; render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br><span class="line"></span><br><span class="line">    if request.COOKIES.get(cookie_name) is not None:</span><br><span class="line">        cookies &#x3D; request.COOKIES.get(cookie_name)</span><br><span class="line">        cookies_list &#x3D; cookies.split(&#39;|&#39;)</span><br><span class="line">        if str(pk) not in cookies_list:</span><br><span class="line">            response.set_cookie(cookie_name, cookies + f&#39;|&#123;pk&#125;&#39;, expires&#x3D;None)</span><br><span class="line">            notice.hits +&#x3D; 1</span><br><span class="line">            notice.save()</span><br><span class="line">            return response</span><br><span class="line">    else:</span><br><span class="line">        response.set_cookie(cookie_name, pk, expires&#x3D;None)</span><br><span class="line">        notice.hits +&#x3D; 1</span><br><span class="line">        notice.save()</span><br><span class="line">        return response</span><br><span class="line"></span><br><span class="line">    return render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br></pre></td></tr></table></figure>
+<p>session_cookie 변수에 현재 접속된 사용자를 담아두고, 게시글을 조회했을시 생성할 cookie_name에 <strong>f-string</strong>을 사용해서 접속한 사용자의 아이디를 삽입 할 수 있게 합니다. </p>
+<p>Python에서 cookie를 생성하는 방법은 <strong>set_cookie</strong> 메소드를 사용하여 생성할 수 있고, 클라이언트의 쿠키를 얻는 방법은 <strong>request.COOKIES.get(쿠키이름)</strong> 으로 cookie를 얻을 수 있습니다.</p>
+<p>그후 cookie_name의 유무를 확인하여 접속된 사용자의 cookie가 있는 경우, 사용자가 게시글을 조회할때마다 게시글의 pk인 id값을 추가하고 hits를 증가시킵니다.</p>
+<h2 id="2-결과"><a href="#2-결과" class="headerlink" title="2. 결과"></a>2. 결과</h2><p><img src="20-1.GIF" alt="django-project-20"></p>
 <p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
 <hr>
 
@@ -303,13 +302,9 @@
                 <!-- Pager -->
                 <!-- <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2020/04/04/django-project-20/" data-toggle="tooltip" data-placement="top" title="Django 20. 글 조회수 GET중복방지 구현"><i class="fas fa-chevron-left"></i>&nbsp;이전게시글</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2020/04/02/django-project-18/" data-toggle="tooltip" data-placement="top" title="Django 18. 게시글 검색 기능 구현">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
+                        <a href="/2020/04/03/django-project-19/" data-toggle="tooltip" data-placement="top" title="Django 19. 게시글 상세보기 구현">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
                     </li>
                     
                 </ul> -->
@@ -354,7 +349,7 @@
         <strong class="toc-title">Contents</strong>
         <!-- <strong class="toc-title">목차</strong> -->
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-19-게시글-상세보기-구현"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 19. 게시글 상세보기 구현</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-views-py-작성"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. views.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-urls-py-작성"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. urls.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-templates-작성"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. templates 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-결과"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. 결과</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-20-글-조회수-GET중복방지-구현"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 20. 글 조회수 GET중복방지 구현</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-views-py-수정"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. views.py 수정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-결과"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. 결과</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -401,8 +396,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "today-log";
-    var disqus_identifier = "https://parkhyeonchae.github.io/2020/04/03/django-project-19/";
-    var disqus_url = "https://parkhyeonchae.github.io/2020/04/03/django-project-19/";
+    var disqus_identifier = "https://parkhyeonchae.github.io/2020/04/04/django-project-20/";
+    var disqus_url = "https://parkhyeonchae.github.io/2020/04/04/django-project-20/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
