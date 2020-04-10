@@ -23,11 +23,11 @@
 
     <title>
         
-          Django 20. 글 조회수 GET중복방지 구현 - Today.log
+          Django 22. 게시글 상단에 표시하기 구현 - Today.log
         
     </title>
 
-    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/04/django-project-20/">
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/09/django-project-22/">
 
     <!-- Bootstrap Core CSS -->
     
@@ -82,7 +82,7 @@
     <!-- ga & ba script hoook -->
     <script></script>
 
-    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/04/django-project-20/">
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/09/django-project-22/">
 <meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/rss2.xml" title="Today.log" type="application/rss+xml">
 </head>
 
@@ -266,23 +266,31 @@
 
                 <div style="text-align: right;">
                     <span style="color:gray;">
-                        2020-04-04
+                        2020-04-09
                     </span>
                 </div>
 
-                <h1 id="Django-20-글-조회수-GET중복방지-구현"><a href="#Django-20-글-조회수-GET중복방지-구현" class="headerlink" title="Django 20. 글 조회수 GET중복방지 구현"></a>Django 20. 글 조회수 GET중복방지 구현</h1><blockquote>
-<p>Cookie를 사용해 새로고침 등 게시글을 조회할 때마다 조회수가 증가하지 않도록 구현합니다.</p>
+                <h1 id="Django-22-게시글-상단에-표시하기-구현"><a href="#Django-22-게시글-상단에-표시하기-구현" class="headerlink" title="Django 22. 게시글 상단에 표시하기 구현"></a>Django 22. 게시글 상단에 표시하기 구현</h1><blockquote>
+<p>공지사항이나 중요한 글을 게시글 리스트 상단에 추가로 표시할 수 있도록 구현합니다.</p>
 </blockquote>
 <hr>
-<h2 id="1-views-py-수정"><a href="#1-views-py-수정" class="headerlink" title="1. views.py 수정"></a>1. views.py 수정</h2><p>사용자가 게시글을 클릭할 시 이전의 게시판 모델을 생성할 때 추가한 조회수 필드인 hits가 증가하도록 구현하기 위해서 <strong>Cookie</strong>를 사용합니다.</p>
-<p><strong>*Django 2</strong>버전대를 사용하시는 분이면 조회수 플러그인인 <strong>django-hitcount</strong>를 사용하실 수 있습니다. 현재까지 나온 <strong>django-hitcount 1.3.1</strong>버전은 <strong>Django 3</strong>버전을 지원하지 않습니다.</p>
-<p><strong><a href="https://pypi.org/project/django-hitcount/" target="_blank" rel="external nofollow noopener noreferrer">Django-Hitcount</a></strong></p>
-<p>Cookie를 사용한 조회수 증가를 구현하기 위해 <strong>notice</strong>앱 <strong>views.py</strong>의 <strong>notice_detail_view</strong>에 아래의 소스를 추가로 입력합니다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;views.py</span><br><span class="line"></span><br><span class="line">@login_message_required</span><br><span class="line">def notice_detail_view(request, pk):</span><br><span class="line">    notice &#x3D; get_object_or_404(Notice, pk&#x3D;pk)</span><br><span class="line">    session_cookie &#x3D; request.session[&#39;user_id&#39;]</span><br><span class="line">    cookie_name &#x3D; F&#39;notice_hits:&#123;session_cookie&#125;&#39;</span><br><span class="line">    context &#x3D; &#123;</span><br><span class="line">        &#39;notice&#39;: notice,</span><br><span class="line">    &#125;</span><br><span class="line">    response &#x3D; render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br><span class="line"></span><br><span class="line">    if request.COOKIES.get(cookie_name) is not None:</span><br><span class="line">        cookies &#x3D; request.COOKIES.get(cookie_name)</span><br><span class="line">        cookies_list &#x3D; cookies.split(&#39;|&#39;)</span><br><span class="line">        if str(pk) not in cookies_list:</span><br><span class="line">            response.set_cookie(cookie_name, cookies + f&#39;|&#123;pk&#125;&#39;, expires&#x3D;None)</span><br><span class="line">            notice.hits +&#x3D; 1</span><br><span class="line">            notice.save()</span><br><span class="line">            return response</span><br><span class="line">    else:</span><br><span class="line">        response.set_cookie(cookie_name, pk, expires&#x3D;None)</span><br><span class="line">        notice.hits +&#x3D; 1</span><br><span class="line">        notice.save()</span><br><span class="line">        return response</span><br><span class="line"></span><br><span class="line">    return render(request, &#39;notice&#x2F;notice_detail.html&#39;, context)</span><br></pre></td></tr></table></figure>
-<p>session_cookie 변수에 현재 접속된 사용자를 담아두고, 게시글을 조회했을시 생성할 cookie_name에 <strong>f-string</strong>을 사용해서 접속한 사용자의 아이디를 삽입 할 수 있게 합니다. </p>
-<p>Python에서 cookie를 생성하는 방법은 <strong>set_cookie</strong> 메소드를 사용하여 생성할 수 있고, 클라이언트의 쿠키를 얻는 방법은 <strong>request.COOKIES.get(쿠키이름)</strong> 으로 cookie를 얻을 수 있습니다.</p>
-<p>그후 cookie_name의 유무를 확인하여 접속된 사용자의 cookie가 있는 경우, 사용자가 게시글을 조회할때마다 게시글의 pk인 id값을 추가하고 hits를 증가시킵니다.</p>
-<h2 id="2-결과"><a href="#2-결과" class="headerlink" title="2. 결과"></a>2. 결과</h2><p><img src="20-1.GIF" alt="django-project-20"></p>
+<h2 id="1-forms-py-수정"><a href="#1-forms-py-수정" class="headerlink" title="1. forms.py 수정"></a>1. forms.py 수정</h2><p>중요한 글을 상단에 고정시키기 위해 이전 16번 포스팅글에서 BooleanField로 생성한 <strong>top_fixed </strong>필드를 활용합니다. 이 프로젝트의 상단고정 표시조건은 다음과 같습니다.</p>
+<ol>
+<li><strong>상단표시 체크를 하면 기존 리스트에 게시글을 표시하되, 상단에 추가로 같은 글을 고정시킨다.</strong></li>
+<li><strong>페이지를 넘겨도 상단고정 게시글은 표시되게 한다.</strong></li>
+<li><strong>게시글 검색을 했을시 검색결과만 표시되게 한다.</strong></li>
+</ol>
+<p>위 조건에 맞게 구현하기 위해 우선 글쓰기폼인 <strong>NoticeWriteForm</strong>의 Meta클래스에 <strong>top_fixed </strong>필드를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;forms.py</span><br><span class="line"></span><br><span class="line">class NoticeWriteForm(forms.ModelForm):</span><br><span class="line">    def __init__(self, *args, **kwargs):</span><br><span class="line">        super(NoticeWriteForm, self).__init__(*args, **kwargs)</span><br><span class="line">        self.fields[&#39;title&#39;].label &#x3D; &#39;제목&#39;</span><br><span class="line">        self.fields[&#39;title&#39;].widget.attrs.update(&#123;</span><br><span class="line">            &#39;placeholder&#39;: &#39;제목을 입력해주세요.&#39;,</span><br><span class="line">            &#39;class&#39;: &#39;form-control&#39;,</span><br><span class="line">            &#39;autofocus&#39;: True,</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        model &#x3D; Notice</span><br><span class="line">        fields &#x3D; [&#39;title&#39;, &#39;content&#39;, &#39;top_fixed&#39;]</span><br></pre></td></tr></table></figure>
+<h2 id="2-상단고정-체크박스-추가"><a href="#2-상단고정-체크박스-추가" class="headerlink" title="2. 상단고정 체크박스 추가"></a>2. 상단고정 체크박스 추가</h2><p>이전에 생성해둔 글쓰기 템플릿인 <strong>notice_wirte.html</strong>에 아래와 같이 폼으로 넘어온 <strong>top_fixed</strong>를 적절한 위치에 추가합니다. 프로젝트에서는 작성하기 버튼 좌측에 위치하였습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;notice&#x2F;notice_write.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;label&gt;</span><br><span class="line">    &#123;&#123; form.top_fixed &#125;&#125;</span><br><span class="line">    &lt;span&gt;상단에 표시하기&lt;&#x2F;span&gt;</span><br><span class="line">&lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="3-ListView-수정"><a href="#3-ListView-수정" class="headerlink" title="3. ListView 수정"></a>3. ListView 수정</h2><p>상단표시가 된 게시글을 글리스트에 출력하기 위해 이전에 구현한 <strong>NoticeListView</strong>를 수정합니다. <strong>get_context_data</strong> 함수에 아래의 소스를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># notice&#x2F;views.py</span><br><span class="line"></span><br><span class="line">class NoticeListView(ListView):</span><br><span class="line">	def get_context_data(self, **kwargs):</span><br><span class="line">    	notice_fixed &#x3D; Notice.objects.filter(top_fixed&#x3D;True).order_by(&#39;-registered_date&#39;)</span><br><span class="line">    	context[&#39;notice_fixed&#39;] &#x3D; notice_fixed</span><br></pre></td></tr></table></figure>
+<p>공지사항 게시판 모델인 Notice 모델에 필터를 걸어 <strong>top_fixed</strong>가 <strong>True</strong>인 게시글 쿼리셋을 가져온 후 context에 추가하여 템플릿에 전달합니다.</p>
+<h2 id="4-List-템플릿-수정"><a href="#4-List-템플릿-수정" class="headerlink" title="4. List 템플릿 수정"></a>4. List 템플릿 수정</h2><p><strong>notice_list.html</strong>의 <strong>thead</strong>부분에 context로 넘어온 상단고정 게시글을 출력하기 위해 아래와 같이 소스를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;notice&#x2F;notice_list.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;thead&gt;</span><br><span class="line">    &lt;tr class&#x3D;&quot;text-center&quot;&gt;</span><br><span class="line">        &lt;th&gt;번호&lt;&#x2F;th&gt;</span><br><span class="line">        &lt;th&gt;제목&lt;&#x2F;th&gt;</span><br><span class="line">        &lt;th&gt;작성자&lt;&#x2F;th&gt;</span><br><span class="line">        &lt;th&gt;등록일&lt;&#x2F;th&gt;</span><br><span class="line">        &lt;th&gt;조회수&lt;&#x2F;th&gt;</span><br><span class="line">    &lt;&#x2F;tr&gt;</span><br><span class="line">    &#123;% if q %&#125;</span><br><span class="line">    &#123;% else %&#125;</span><br><span class="line">    &#123;% if notice_fixed %&#125;</span><br><span class="line">    &#123;% for notice in notice_fixed %&#125;</span><br><span class="line">    &lt;tr class&#x3D;&quot;table-secondary text-center&quot; onclick&#x3D;&quot;location.href&#x3D;&#39;&#x2F;notice&#x2F;&#123;&#123; notice.id &#125;&#125;&#x2F;&#39;&quot;&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; notice.id &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; notice.title|truncatechars:30 &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; notice.writer &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; notice.registered_date|date:&#39;Y. m. d&#39; &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">        &lt;td&gt;&#123;&#123; notice.hits &#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">    &lt;&#x2F;tr&gt;</span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">&lt;&#x2F;thead&gt;</span><br></pre></td></tr></table></figure>
+<p>사용자가 게시글을 검색할 시 상단고정 게시글은 표시되지 않게 하기 위해 조건문을 걸고, 상단고정임을 알리는 적절한 Style의 클래스를 추가합니다.</p>
+<h2 id="5-결과"><a href="#5-결과" class="headerlink" title="5. 결과"></a>5. 결과</h2><p><img src="22-1.GIF" alt="django-project-22"></p>
 <p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
 <hr>
 
@@ -302,13 +310,9 @@
                 <!-- Pager -->
                 <!-- <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2020/04/08/django-project-21/" data-toggle="tooltip" data-placement="top" title="Django 21. 게시글 작성 구현 / SUMMERNOTE 적용"><i class="fas fa-chevron-left"></i>&nbsp;이전게시글</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2020/04/03/django-project-19/" data-toggle="tooltip" data-placement="top" title="Django 19. 게시글 상세보기 구현">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
+                        <a href="/2020/04/08/django-project-21/" data-toggle="tooltip" data-placement="top" title="Django 21. 게시글 작성 구현 / SUMMERNOTE 적용">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
                     </li>
                     
                 </ul> -->
@@ -353,7 +357,7 @@
         <strong class="toc-title">Contents</strong>
         <!-- <strong class="toc-title">목차</strong> -->
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-20-글-조회수-GET중복방지-구현"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 20. 글 조회수 GET중복방지 구현</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-views-py-수정"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. views.py 수정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-결과"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. 결과</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-22-게시글-상단에-표시하기-구현"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 22. 게시글 상단에 표시하기 구현</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-forms-py-수정"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. forms.py 수정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-상단고정-체크박스-추가"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. 상단고정 체크박스 추가</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-ListView-수정"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. ListView 수정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-List-템플릿-수정"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. List 템플릿 수정</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-결과"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. 결과</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -400,8 +404,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "today-log";
-    var disqus_identifier = "https://parkhyeonchae.github.io/2020/04/04/django-project-20/";
-    var disqus_url = "https://parkhyeonchae.github.io/2020/04/04/django-project-20/";
+    var disqus_identifier = "https://parkhyeonchae.github.io/2020/04/09/django-project-22/";
+    var disqus_url = "https://parkhyeonchae.github.io/2020/04/09/django-project-22/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

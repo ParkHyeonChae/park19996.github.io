@@ -301,6 +301,45 @@
 
         <div class="post-preview">
 
+            <a href="/2020/04/09/django-project-22/">
+                <h2 class="post-title" style="margin-left:1px !important;">
+                    Django 22. 게시글 상단에 표시하기 구현
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    &nbsp;Django 22. 게시글 상단에 표시하기 구현
+공지사항이나 중요한 글을 게시글 리스트 상단에 추가로 표시할 수 있도록 구현합니다.
+
+
+1. forms.py 수정중요한 글을 상단에 고정시키기 위해 이전 16번 포스팅글에서 BooleanField로 생성한 top_fixed 필드를 활용합니다. 이 프로젝트의 상단고정 표시조건은 다음과 같습니다.
+
+상단표시...
+                </div>
+            </a>
+            
+                <!-- <p class="post-meta" style="margin: 10px 0;">
+                    2020-04-09
+                </p> -->
+                <div class="tags" style="margin-top:5px;">
+                    
+                      <a href="/tags/#Django" title="Django">Django</a>
+                    
+                      <a href="/tags/#Python" title="Python">Python</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
             <a href="/2020/04/08/django-project-21/">
                 <h2 class="post-title" style="margin-left:1px !important;">
                     Django 21. 게시글 작성 구현 / SUMMERNOTE 적용
@@ -639,45 +678,6 @@ Django 내장폼인 UserChangeForm을 사용해 사용자 프로필보기와 수
 
     
 
-    
-
-        <div class="post-preview">
-
-            <a href="/2020/03/30/django-project-12/">
-                <h2 class="post-title" style="margin-left:1px !important;">
-                    Django 12. 비밀번호찾기 인증번호 구현 (AJAX)
-                </h2>
-                <h3 class="post-subtitle">
-                    
-                </h3>
-                <div class="post-content-preview">
-                    &nbsp;Django 12. 비밀번호 찾기 구현 (AJAX)
-Jquery Ajax를 활용하고 인증번호를 확인 후 사용자의 비밀번호찾기를 구현합니다.
-
-
-1. 인증번호 생성 함수 구현이전 포스트와 같이 비밀번호찾기 또한 Ajax를 활용하여 구현합니다. 하지만 아이디찾기와는 다르게 회원가입 때 구현한 send_mail을 활용해 비밀번호찾기 인증번호를 발송하는 기능...
-                </div>
-            </a>
-            
-                <!-- <p class="post-meta" style="margin: 10px 0;">
-                    2020-03-30
-                </p> -->
-                <div class="tags" style="margin-top:5px;">
-                    
-                      <a href="/tags/#Django" title="Django">Django</a>
-                    
-                      <a href="/tags/#Python" title="Python">Python</a>
-                    
-                      <a href="/tags/#Ajax" title="Ajax">Ajax</a>
-                    
-                </div>
-            
-
-        </div>
-        <hr>
-
-    
-
 
 
 <!-- Pager -->
@@ -775,11 +775,11 @@ Jquery Ajax를 활용하고 인증번호를 확인 후 사용자의 비밀번호
     <div class="tags">
         
             
-            <a href="/tags/#Django" title="Django" rel="21">Django</a>
+            <a href="/tags/#Django" title="Django" rel="22">Django</a>
             
         
             
-            <a href="/tags/#Python" title="Python" rel="21">Python</a>
+            <a href="/tags/#Python" title="Python" rel="22">Python</a>
             
         
             
@@ -1015,21 +1015,6 @@ Jquery Ajax를 활용하고 인증번호를 확인 후 사용자의 비밀번호
     
         <!-- <script src="/js/ribbonDynamic.js"></script> -->
     
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
