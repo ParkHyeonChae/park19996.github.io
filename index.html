@@ -301,6 +301,43 @@
 
         <div class="post-preview">
 
+            <a href="/2020/04/11/django-project-23/">
+                <h2 class="post-title" style="margin-left:1px !important;">
+                    Django 23. 게시글 수정 / 삭제 구현
+                </h2>
+                <h3 class="post-subtitle">
+                    
+                </h3>
+                <div class="post-content-preview">
+                    &nbsp;Django 23. 게시글 수정 / 삭제 구현
+글수정을 구현하고 글을 삭제할 때 경고창을 띄운 후 삭제하도록 구현합니다.
+
+
+1. 글 수정 View 작성이 프로젝트에서 글을 수정할 수 있는 권한은 최고권한인 level 0의 개발자 권한과, 글 작성자 본인으로 설정하고, 이전에 생성한 글쓰기 폼인 noticeWriteView를 사용하여 구현합니다. no...
+                </div>
+            </a>
+            
+                <!-- <p class="post-meta" style="margin: 10px 0;">
+                    2020-04-11
+                </p> -->
+                <div class="tags" style="margin-top:5px;">
+                    
+                      <a href="/tags/#Django" title="Django">Django</a>
+                    
+                      <a href="/tags/#Python" title="Python">Python</a>
+                    
+                </div>
+            
+
+        </div>
+        <hr>
+
+    
+
+    
+
+        <div class="post-preview">
+
             <a href="/2020/04/09/django-project-22/">
                 <h2 class="post-title" style="margin-left:1px !important;">
                     Django 22. 게시글 상단에 표시하기 구현
@@ -640,44 +677,6 @@ Django 내장폼인 PasswordChangeForm을 사용해 사용자의 비밀번호 �
 
     
 
-    
-
-        <div class="post-preview">
-
-            <a href="/2020/03/30/django-project-13/">
-                <h2 class="post-title" style="margin-left:1px !important;">
-                    Django 13. 프로필보기 / 수정 구현
-                </h2>
-                <h3 class="post-subtitle">
-                    
-                </h3>
-                <div class="post-content-preview">
-                    &nbsp;Django 13. 프로필보기 / 수정 구현
-Django 내장폼인 UserChangeForm을 사용해 사용자 프로필보기와 수정을 구현합니다.
-
-
-1. 프로필보기 구현하기Profile 템플릿을 render하는 views.py에 아래와 같이 소스를 입력합니다.
-123456# users&#x2F;views.py@login_message_requireddef...
-                </div>
-            </a>
-            
-                <!-- <p class="post-meta" style="margin: 10px 0;">
-                    2020-03-30
-                </p> -->
-                <div class="tags" style="margin-top:5px;">
-                    
-                      <a href="/tags/#Django" title="Django">Django</a>
-                    
-                      <a href="/tags/#Python" title="Python">Python</a>
-                    
-                </div>
-            
-
-        </div>
-        <hr>
-
-    
-
 
 
 <!-- Pager -->
@@ -775,11 +774,11 @@ Django 내장폼인 UserChangeForm을 사용해 사용자 프로필보기와 수
     <div class="tags">
         
             
-            <a href="/tags/#Django" title="Django" rel="22">Django</a>
+            <a href="/tags/#Django" title="Django" rel="23">Django</a>
             
         
             
-            <a href="/tags/#Python" title="Python" rel="22">Python</a>
+            <a href="/tags/#Python" title="Python" rel="23">Python</a>
             
         
             
@@ -1015,6 +1014,21 @@ Django 내장폼인 UserChangeForm을 사용해 사용자 프로필보기와 수
     
         <!-- <script src="/js/ribbonDynamic.js"></script> -->
     
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </body>
 
 </html>
