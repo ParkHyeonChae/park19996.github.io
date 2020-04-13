@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>https://parkhyeonchae.github.io/2020/04/12/django-project-24/</loc>
+        <lastmod>2020-04-13T13:01:18.111Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>https://parkhyeonchae.github.io/2020/04/11/django-project-23/</loc>
         <lastmod>2020-04-10T21:28:18.571Z</lastmod>
         <changefreq>weekly</changefreq>
