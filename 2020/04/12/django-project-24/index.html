@@ -318,7 +318,7 @@
 <p>첨부된 파일이 있을시 게시글에 표시하고 다운로드 받을 수 있게 <strong>notice_detail.html</strong>의 적절한 위치에 아래의 소스를 추가합니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;notice&#x2F;notice_detail.html --&gt;</span><br><span class="line"></span><br><span class="line">&#123;% if notice.upload_files %&#125;</span><br><span class="line">&lt;div class&#x3D;&quot;col-12 text-right&quot;&gt;</span><br><span class="line">    &lt;span&gt;첨부파일 :&amp;nbsp;&lt;&#x2F;span&gt;</span><br><span class="line">    &lt;a href&#x3D;&quot;&#123;% url &#39;notice:notice_download&#39; notice.id %&#125;&quot; &gt;&#123;&#123; notice.filename|truncatechars:25 &#125;&#125;&lt;&#x2F;a&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line">&#123;% endif %&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="9-결과"><a href="#9-결과" class="headerlink" title="9. 결과"></a>9. 결과</h2><p><img src="24-1.GIF" alt="django-project-24"></p>
-<p>다음 포스팅에서 게시글 수정, 삭제 시 서버 MEDIA_ROOT에 있는 암호화된 파일들도 동시 수정, 삭제 처리와 URL 강제 입력으로 첨부된 게시글 다운로드 방지 구현을 하겠습니다.</p>
+<p>다음 <strong><a href="https://parkhyeonchae.github.io/2020/04/13/django-project-25/">파일 동시 수정 / 삭제 포스팅</a></strong>에서 글 수정, 삭제 시 서버 MEDIA_ROOT에 있는 암호화된 파일들도 동시 수정, 삭제 처리와 URL 강제 입력으로 첨부된 게시글 다운로드 방지 구현을 하겠습니다.</p>
 <p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
 <hr>
 
@@ -337,6 +337,10 @@
                 <!-- <hr> -->
                 <!-- Pager -->
                 <!-- <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/04/13/django-project-25/" data-toggle="tooltip" data-placement="top" title="Django 25. 업로드(MEDIA) 파일 동시 수정 / 삭제 구현"><i class="fas fa-chevron-left"></i>&nbsp;이전게시글</a>
+                    </li>
                     
                     
                     <li class="next">
