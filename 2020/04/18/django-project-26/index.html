@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="DICttDftb2e-MtGdZNwFp5qVinH-TC13-MFfUBJTCp0">
+    <meta name="naver-site-verification" content="8aae91ad51f520c383688a6477b7c766eb917f50">
+    <meta name="baidu-site-verification" content="093lY4ziMu">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="description" content="Devlog">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!--<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>-->
+    
+    <!-- Google Adsense -->
+    <script data-ad-client="ca-pub-5030093973610333" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
+
+    <title>
+        
+          Django 26. 댓글 쓰기 / 삭제 구현 (AJAX) - Today.log
+        
+    </title>
+
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/18/django-project-26/">
+
+    <!-- Bootstrap Core CSS -->
+    
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+
+    <!-- Custom CSS --> 
+    
+        
+<link rel="stylesheet" href="/css/dusign-light.css">
+
+        
+<link rel="stylesheet" href="/css/dusign-common-light.css">
+
+        
+<link rel="stylesheet" href="/css/font-awesome.css">
+
+        
+<link rel="stylesheet" href="/css/toc.css">
+
+        <!-- background effects end -->
+    
+    
+    <!-- Pygments Highlight CSS -->
+    
+<link rel="stylesheet" href="/css/highlight.css">
+
+
+    
+<link rel="stylesheet" href="/css/widget.css">
+
+
+    
+<link rel="stylesheet" href="/css/rocket.css">
+
+
+    
+<link rel="stylesheet" href="/css/signature.css">
+
+
+    
+<link rel="stylesheet" href="/css/fonts.googleapis.css">
+
+
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <!-- photography -->
+    
+<link rel="stylesheet" href="/css/photography.css">
+
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+
+    <link rel="canonical" href="https://parkhyeonchae.github.io/2020/04/18/django-project-26/">
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/rss2.xml" title="Today.log" type="application/rss+xml">
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart>
+
+    <!-- background effects start -->
+    
+    <!-- background effects end -->
+
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            
+                background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../../../../img/header_img/blog_background.jpg')
+                /*post*/
+            
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                
+
+                </div>
+            </div>
+        </div>      
+    </div>
+
+    
+    <div class="waveWrapper">
+        <div class="wave wave_before" style="background-image: url('/img/wave-light.png')"></div>
+        <div class="wave wave_after" style="background-image: url('/img/wave-light.png')"></div>
+    </div>
+    
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Today.log</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li>
+                        <a href="/categories/">CATEGORIES</a>
+                    </li>
+                    <li>
+                        <a href="/archive/">ARCHIVES</a>
+                    </li>
+                    <li>
+                        <a href="/tags/">TAGS</a>
+                    </li>
+                    <!-- <li>
+                        <a href="/about/">ABOUT</a>
+                    </li> -->
+                    <li>
+                        <a href="https://github.com/ParkHyeonChae" target="_blank" rel="external nofollow noopener noreferrer">GITHUB</a>
+                    </li>
+                    
+
+                    <!-- 
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/categories/">Categories</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/photography/">Photography</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                     -->
+                    
+                    <!--  -->
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <div style="text-align: right;">
+                    <span style="color:gray;">
+                        2020-04-18
+                    </span>
+                </div>
+
+                <h1 id="Django-26-댓글-쓰기-삭제-구현-AJAX"><a href="#Django-26-댓글-쓰기-삭제-구현-AJAX" class="headerlink" title="Django 26. 댓글 쓰기 / 삭제 구현 (AJAX)"></a>Django 26. 댓글 쓰기 / 삭제 구현 (AJAX)</h1><blockquote>
+<p>Ajax를 사용하여 게시글에 댓글을 달고, 삭제하는 기능을 구현합니다.</p>
+</blockquote>
+<hr>
+<p>게시글에 댓글달기를 구현하기에 앞서 이전의 포스팅에서는 공지사항 앱인 <strong>notice app</strong>을 활용하여 포스팅을 진행하였습니다. 하지만 공지사항에는 댓글을 달 수 없도록 설정하였기에 이 프로젝트에서는 자유롭게 게시글을 작성하고 소통할 수 있는 자유게시판 앱을 추가하였습니다. 구현 방법은 공지사항 앱과 같으며 <strong>free</strong>란 <strong>app</strong>을 생성했다는 가정하에 포스팅을 진행하겠습니다. 댓글 포스팅은 총 3개로 나누어 포스팅할 예정입니다. 기본적인 구현 로직은 다음과 같습니다.</p>
+<p><strong>level0 개발자, level1 관리자 : 모든 댓글의 입력, 삭제, 모든 답글의 입력, 삭제</strong> </p>
+<p><strong>level2 사용자 : 댓글의 입력, 답글의 입력 (본인 글일시 댓글의 입력, 삭제, 답글의 입력, 삭제)</strong></p>
+<ol>
+<li><strong>본인의 글일시 댓글과 답글에 (글쓴이) 표시를 한다.</strong></li>
+<li><strong>답글작성은 댓글에서만 가능하다. (답글에 답글불가)</strong></li>
+<li><strong>댓글과 답글 작성, 삭제시 그 갯수를 동적으로 표시한다.</strong></li>
+<li><strong>본 게시글이 삭제될시 댓글과 답글은 DB상에서 삭제된다.</strong></li>
+<li><strong>댓글과 답글 삭제시 DB상에서 내용은 보존한다.</strong></li>
+<li><strong>댓글과 답글 삭제시 삭제된 댓글이라는 표시를 한다.</strong></li>
+<li><strong>답글이 있는 댓글을 삭제해도 그 답글은 보존한다.</strong></li>
+<li><strong>답글의 입력창은 답글이 입력되는 위치에 동적으로 생성한다. (다른곳을 Click시 입력창 삭제)</strong></li>
+<li><strong>댓글과 답글 입력, 삭제는 비동기로 구현한다.</strong></li>
+</ol>
+<p><em>*이번 포스팅에서는 Ajax를 사용한 댓글쓰기와 댓글삭제를 구현하겠습니다.</em></p>
+<h2 id="1-댓글-models-py-작성"><a href="#1-댓글-models-py-작성" class="headerlink" title="1. 댓글 models.py 작성"></a>1. 댓글 models.py 작성</h2><p>댓글을 작성하기 위한 models을 생성하기 위해 적용할 게시판앱의 models.py에 아래의 Comment 클래스를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># free&#x2F;models.py</span><br><span class="line"></span><br><span class="line">class Comment(models.Model):</span><br><span class="line">    post &#x3D; models.ForeignKey(Free, on_delete&#x3D;models.CASCADE, verbose_name&#x3D;&#39;게시글&#39;)</span><br><span class="line">    writer &#x3D; models.ForeignKey(settings.AUTH_USER_MODEL, on_delete&#x3D;models.SET_NULL, null&#x3D;True, verbose_name&#x3D;&#39;댓글작성자&#39;)</span><br><span class="line">    content &#x3D; models.TextField(verbose_name&#x3D;&#39;댓글내용&#39;)</span><br><span class="line">    created &#x3D; models.DateTimeField(auto_now_add&#x3D;True, verbose_name&#x3D;&#39;작성일&#39;)</span><br><span class="line">    deleted &#x3D; models.BooleanField(default&#x3D;False, verbose_name&#x3D;&#39;삭제여부&#39;)</span><br><span class="line">    </span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.content</span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        db_table &#x3D; &#39;자유게시판 댓글&#39;</span><br><span class="line">        verbose_name &#x3D; &#39;자유게시판 댓글&#39;</span><br><span class="line">        verbose_name_plural &#x3D; &#39;자유게시판 댓글&#39;</span><br></pre></td></tr></table></figure>
+<p>댓글을 작성할 게시글 필드인 post와 댓글작성자 필드인 wirter는 <strong>ForeignKey</strong>관계로 설정합니다. 작성된 댓글을 삭제할 시 ‘삭제된 댓글입니다.’ 로 표시하기 위해 <strong>deleted</strong> 필드를 추가합니다.</p>
+<p>아래의 명령어를 통해 생성한 Comment를 django DB에 적용하기 위해 migrate합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python manage.py makemigrations free</span><br><span class="line">$ python manage.py migrate</span><br></pre></td></tr></table></figure>
+<h2 id="2-admin-py-작성"><a href="#2-admin-py-작성" class="headerlink" title="2. admin.py 작성"></a>2. admin.py 작성</h2><p>생성한 Model을 django admin페이지에서 관리할 수 있도록 <strong>admin.py</strong>에 아래의 코드를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># free&#x2F;admin.py</span><br><span class="line"></span><br><span class="line">from .models import Comment</span><br><span class="line"></span><br><span class="line">class CommentAdmin(admin.ModelAdmin):</span><br><span class="line">    list_display &#x3D; (</span><br><span class="line">        &#39;post&#39;, </span><br><span class="line">        &#39;content&#39;,</span><br><span class="line">        &#39;writer&#39;,</span><br><span class="line">        &#39;created&#39;,</span><br><span class="line">        &#39;deleted&#39;,</span><br><span class="line">    )</span><br><span class="line">    search_fields &#x3D; (&#39;post__title&#39;, &#39;content&#39;, &#39;writer__user_id&#39;,)</span><br><span class="line"></span><br><span class="line">admin.site.register(Comment, CommentAdmin)</span><br></pre></td></tr></table></figure>
+<p>search_fields의 <strong>incontains</strong>에러를 피하기 위하여 <strong>ForeignKey</strong> 관계로 연결된 필드는 <strong>‘post__title’</strong>과 같은 형식으로 추가합니다.</p>
+<h2 id="3-댓글쓰기-views-py-작성"><a href="#3-댓글쓰기-views-py-작성" class="headerlink" title="3. 댓글쓰기 views.py 작성"></a>3. 댓글쓰기 views.py 작성</h2><p>templates에서 Ajax로 댓글작성 비동기요청이 들어왔을때 응답을 해주기 위해 게시글의 id값을 인자로 받는 <strong>comment_write_view</strong>를 아래와 같이 작성합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"># free&#x2F;views.py</span><br><span class="line"></span><br><span class="line">from django.http import HttpResponse</span><br><span class="line">import json</span><br><span class="line">from django.core import serializers</span><br><span class="line">from django.core.serializers.json import DjangoJSONEncoder</span><br><span class="line"></span><br><span class="line">@login_message_required</span><br><span class="line">def comment_write_view(request, pk):</span><br><span class="line">    post &#x3D; get_object_or_404(Free, id&#x3D;pk)</span><br><span class="line">    writer &#x3D; request.POST.get(&#39;writer&#39;)</span><br><span class="line">    content &#x3D; request.POST.get(&#39;content&#39;)</span><br><span class="line">    if content:</span><br><span class="line">        comment &#x3D; Comment.objects.create(post&#x3D;post, content&#x3D;content, writer&#x3D;request.user)</span><br><span class="line">        post.save()</span><br><span class="line">        data &#x3D; &#123;</span><br><span class="line">            &#39;writer&#39;: writer,</span><br><span class="line">            &#39;content&#39;: content,</span><br><span class="line">            &#39;created&#39;: &#39;방금 전&#39;,</span><br><span class="line">            &#39;comment_id&#39;: comment.id</span><br><span class="line">        &#125;</span><br><span class="line">        if request.user &#x3D;&#x3D; post.writer:</span><br><span class="line">            data[&#39;self_comment&#39;] &#x3D; &#39;(글쓴이)&#39;</span><br><span class="line">        </span><br><span class="line">        return HttpResponse(json.dumps(data, cls&#x3D;DjangoJSONEncoder), content_type &#x3D; &quot;application&#x2F;json&quot;)</span><br></pre></td></tr></table></figure>
+<p><strong>templates</strong>에서 <strong>json</strong>으로 받은 댓글의 내용과 작성자를 id값에 맞는 post에 create메소드를 사용하여 댓글을 생성합니다. 성공적으로 DB에 댓글이 생성되었을시 댓글의 id값, 글작성자와 댓글작성자를 비교해 글쓴이 여부 등과 같은 data를 딕셔너리형으로 담아 <strong>response</strong>합니다.</p>
+<h2 id="4-댓글삭제-views-py-작성"><a href="#4-댓글삭제-views-py-작성" class="headerlink" title="4. 댓글삭제 views.py 작성"></a>4. 댓글삭제 views.py 작성</h2><p>댓글삭제도 댓글쓰기 view와 마찬가지로 게시글의 id값을 인자로 받는 <strong>comment_delete_view</strong>를 아래와 같이 작성합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># free&#x2F;views.py</span><br><span class="line"></span><br><span class="line">@login_message_required</span><br><span class="line">def comment_delete_view(request, pk):</span><br><span class="line">    post &#x3D; get_object_or_404(Free, id&#x3D;pk)</span><br><span class="line">    comment_id &#x3D; request.POST.get(&#39;comment_id&#39;)</span><br><span class="line">    target_comment &#x3D; Comment.objects.get(pk &#x3D; comment_id)</span><br><span class="line"></span><br><span class="line">    if request.user &#x3D;&#x3D; target_comment.writer or request.user.level &#x3D;&#x3D; &#39;1&#39; or request.user.level &#x3D;&#x3D; &#39;0&#39;:</span><br><span class="line">        target_comment.deleted &#x3D; True</span><br><span class="line">        target_comment.save()</span><br><span class="line">        post.save()</span><br><span class="line">        data &#x3D; &#123;</span><br><span class="line">            &#39;comment_id&#39;: comment_id,</span><br><span class="line">        &#125;</span><br><span class="line">        return HttpResponse(json.dumps(data, cls&#x3D;DjangoJSONEncoder), content_type &#x3D; &quot;application&#x2F;json&quot;)</span><br></pre></td></tr></table></figure>
+<p>댓글삭제 요청이 들어왔을 경우 pk값으로 받은 게시글의 id를 사용해 게시글을 찾아내고, 댓글의 id값인 comment_id와 비교하여 삭제요청을 한 사용자의 등급이 관리자거나 글쓴이 본인일 경우에 댓글의 <strong>deleted</strong> 필드를 <strong>True</strong>로 변경합니다. templates에서는 deleted가 True인 댓글을 템플릿 필터를 활용해 삭제메세지로 표시할 수 있게 됩니다.</p>
+<h2 id="5-urls-py-작성"><a href="#5-urls-py-작성" class="headerlink" title="5. urls.py 작성"></a>5. urls.py 작성</h2><p>구현한 views를 연결하기 위해 <strong>urls.py</strong>의 <strong>urlpatterns</strong>에 아래와 같이 path를 추가합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># free&#x2F;urls.py</span><br><span class="line"></span><br><span class="line">urlpatterns &#x3D; [</span><br><span class="line">    path(&#39;&lt;int:pk&gt;&#x2F;comment&#x2F;write&#x2F;&#39;, views.comment_write_view, name&#x3D;&#39;comment_write&#39;),</span><br><span class="line">    path(&#39;&lt;int:pk&gt;&#x2F;comment&#x2F;delete&#x2F;&#39;, views.comment_delete_view, name&#x3D;&#39;comment_delete&#39;),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="6-댓글표시-templates-작성"><a href="#6-댓글표시-templates-작성" class="headerlink" title="6. 댓글표시 templates 작성"></a>6. 댓글표시 templates 작성</h2><p>사용자가 게시글을 <strong>GET</strong>으로 접근했을시 보여지는 템플릿을 우선적으로 작성합니다. 템플릿 필터를 활용하여 삭제댓글, 글쓴이 표시를 하고 비동기로 댓글이 append될 <strong>hidden</strong> 타입의 <strong>comment_list</strong> div를 추가합니다.  작성자를 얻기 위해 현재 접속된 사용자를 value값으로 설정합니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;free&#x2F;free_detail.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;card&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;card-header&quot;&gt;</span><br><span class="line">        &lt;div class&#x3D;&quot;col-md-12&quot;&gt;</span><br><span class="line">            &#123;% csrf_token %&#125;</span><br><span class="line">            &lt;div class&#x3D;&quot;form-group row&quot;&gt;</span><br><span class="line">                &lt;textarea class&#x3D;&quot;form-control&quot; id&#x3D;&quot;content_id&quot; rows&#x3D;&quot;3&quot; placeholder&#x3D;&quot;댓글을 입력해주세요.&quot;&gt;&lt;&#x2F;textarea&gt;</span><br><span class="line">            &lt;&#x2F;div&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;text-right&quot; style&#x3D;&quot;float:right&quot;&gt;</span><br><span class="line">                &lt;button id&#x3D;&quot;comment_write&quot; class&#x3D;&quot;btn btn-sm&quot;&gt;댓글달기&lt;&#x2F;button&gt;</span><br><span class="line">            &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">        &lt;hr&gt;</span><br><span class="line">        &lt;div id&#x3D;&quot;more_comment&quot;&gt;</span><br><span class="line">            &#123;% if comments %&#125;</span><br><span class="line">                &#123;% for comment in comments %&#125;</span><br><span class="line">                &lt;div id&#x3D;&#39;&#123;&#123; comment.id &#125;&#125;&#39;&gt;</span><br><span class="line">                    &#123;% if comment.deleted %&#125;</span><br><span class="line">                    &lt;span&gt;삭제된 댓글입니다.&lt;&#x2F;span&gt;&lt;hr&gt;</span><br><span class="line">                    &#123;% else %&#125;</span><br><span class="line">                        &#123;% if comment.writer &#x3D;&#x3D; free.writer %&#125;</span><br><span class="line">                        &lt;strong&gt;&#123;&#123; comment.writer &#125;&#125;&amp;nbsp;&lt;span&gt;(글쓴이)&lt;&#x2F;span&gt;&lt;&#x2F;strong&gt;</span><br><span class="line">                        &#123;% else  %&#125;</span><br><span class="line">                        &lt;strong&gt;&#123;&#123; comment.writer &#125;&#125;&lt;&#x2F;strong&gt;</span><br><span class="line">                        &#123;% endif %&#125;</span><br><span class="line">                        &lt;span style&#x3D;&quot;float:right&quot;&gt;&#123;&#123; comment.created &#125;&#125;&lt;&#x2F;span&gt;</span><br><span class="line">                        &#123;% if comment.writer &#x3D;&#x3D; request.user or request.user.level &#x3D;&#x3D; &#39;0&#39; or request.user.level &#x3D;&#x3D; &#39;1&#39; %&#125;</span><br><span class="line">                        &lt;div&gt;</span><br><span class="line">                            &lt;div style&#x3D;&quot;white-space:pre-wrap; text-align:left;&quot;&gt;&#123;&#123; comment.content &#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">                            &lt;div style&#x3D;&quot;text-align: right;&quot;&gt;</span><br><span class="line">                                &lt;a onclick&#x3D;&quot;commentDelete(&#39;&#123;&#123;comment.id&#125;&#125;&#39;);&quot;&gt;댓글삭제&lt;&#x2F;a&gt;</span><br><span class="line">                            &lt;&#x2F;div&gt;</span><br><span class="line">                        &lt;&#x2F;div&gt;</span><br><span class="line">                        &lt;hr&gt;</span><br><span class="line">                        &#123;% else %&#125;</span><br><span class="line">                        &lt;div&gt;</span><br><span class="line">                            &lt;div style&#x3D;&quot;white-space:pre-wrap; text-align:left;&quot;&gt;&#123;&#123; comment.content &#125;&#125;&lt;&#x2F;div&gt;</span><br><span class="line">                        &lt;&#x2F;div&gt;</span><br><span class="line">                        &lt;hr&gt;</span><br><span class="line">                        &#123;% endif %&#125;</span><br><span class="line">                    &#123;% endif %&#125;</span><br><span class="line">                &lt;&#x2F;div&gt;</span><br><span class="line">                &lt;div class&#x3D;&#39;&#123;&#123; comment.id &#125;&#125;&#39;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">                &#123;% endfor %&#125;</span><br><span class="line">            &#123;% endif %&#125;</span><br><span class="line">            &lt;input type&#x3D;&quot;hidden&quot; id&#x3D;&quot;comment_writer&quot; value&#x3D;&#123;&#123;request.user&#125;&#125;&gt;</span><br><span class="line">            &lt;div id&#x3D;&quot;comment_list&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="7-댓글쓰기-AJAX-Script-작성"><a href="#7-댓글쓰기-AJAX-Script-작성" class="headerlink" title="7. 댓글쓰기 AJAX Script 작성"></a>7. 댓글쓰기 AJAX Script 작성</h2><p>댓글 달기 button인 comment_write를 click하였을때 실행되는 Ajax Script는 아래와 같습니다. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;free&#x2F;free_detail.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">    $(document).ready(function () &#123;</span><br><span class="line">        $(&#39;#comment_write&#39;).click(function () &#123;</span><br><span class="line">            var content&#x3D; $(&quot;#content_id&quot;).val();</span><br><span class="line">            var writer&#x3D; $(&quot;#comment_writer&quot;).val();</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                type: &quot;POST&quot;,</span><br><span class="line">                url: &quot;&#123;% url &#39;free:comment_write&#39; free.id %&#125;&quot;,</span><br><span class="line">                dataType: &quot;json&quot;,</span><br><span class="line">                data: &#123;</span><br><span class="line">                    &#39;writer&#39;: writer,</span><br><span class="line">                    &#39;content&#39;: content,</span><br><span class="line">                    &#39;csrfmiddlewaretoken&#39;: &#39;&#123;&#123;csrf_token&#125;&#125;&#39;,</span><br><span class="line">                &#125;,</span><br><span class="line">                success: function (response) &#123;</span><br><span class="line">                    if (response.self_comment) &#123;</span><br><span class="line">                        $(&#39;#comment_list&#39;).append(</span><br><span class="line">                           &#39;&lt;div&gt;&lt;div id&#x3D;&#39;+response.comment_id+&#39;&gt;&lt;strong&gt;&#39;+response.writer+&#39;&amp;nbsp;&lt;span&gt;&#39;+response.self_comment+&#39;&lt;&#x2F;span&gt;&lt;&#x2F;strong&gt;&#39;+</span><br><span class="line">                           &#39;&lt;span style&#x3D;&quot;float:right;&quot;&gt;&#39;+response.created+&#39;&lt;&#x2F;span&gt;&#39;+</span><br><span class="line">                           &#39;&lt;div&gt;&lt;div style&#x3D;&quot;white-space:pre-wrap; text-align:left;&quot;&gt;&#39;+response.content+</span><br><span class="line">                           &#39;&lt;&#x2F;div&gt;&lt;div style&#x3D;&quot;text-align:right;&quot;&gt;&lt;a onclick&#x3D;&quot;commentDelete(&#39;+response.comment_id+&#39;);&quot;&gt;댓글삭제&lt;&#x2F;a&gt;&lt;&#x2F;div&gt;&lt;&#x2F;div&gt;&lt;hr&gt;&lt;&#x2F;div&gt;&lt;div class&#x3D;&#39;+response.comment_id+&#39;&gt;&lt;&#x2F;div&gt;&#39;</span><br><span class="line">                        );</span><br><span class="line">                    &#125;</span><br><span class="line">                    else&#123;</span><br><span class="line">                        $(&#39;#comment_list&#39;).append(</span><br><span class="line">                            &#39;&lt;div&gt;&lt;div id&#x3D;&#39;+response.comment_id+&#39;&gt;&lt;strong&gt;&#39;+response.writer+&#39;&lt;&#x2F;strong&gt;&#39;+</span><br><span class="line">                            &#39;&lt;span style&#x3D;&quot;float:right;&quot;&gt;&#39;+response.created+&#39;&lt;&#x2F;span&gt;&#39;+</span><br><span class="line">                            &#39;&lt;div&gt;&lt;div style&#x3D;&quot;white-space:pre-wrap; text-align:left;&quot;&gt;&#39;+response.content+</span><br><span class="line">                            &#39;&lt;&#x2F;div&gt;&lt;div style&#x3D;&quot;text-align:right;&quot;&gt;&lt;a onclick&#x3D;&quot;commentDelete(&#39;+response.comment_id+&#39;);&quot;&gt;댓글삭제&lt;&#x2F;a&gt;&lt;&#x2F;div&gt;&lt;&#x2F;div&gt;&lt;hr&gt;&lt;&#x2F;div&gt;&lt;div class&#x3D;&#39;+response.comment_id+&#39;&gt;&lt;&#x2F;div&gt;&#39;</span><br><span class="line">                        );</span><br><span class="line">                    &#125;</span><br><span class="line">                    $(&#39;#content_id&#39;).val(&quot;&quot;);</span><br><span class="line">                &#125;,</span><br><span class="line">                error: function () &#123;</span><br><span class="line">                    if ($(&#39;#content_id&#39;).val()&#x3D;&#x3D;&quot;&quot;) &#123;</span><br><span class="line">                        alert(&#39;댓글을 입력해주세요.&#39;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>댓글의 내용과 작성자를 이전에 구현한 <strong>comment_write_view</strong>에 <strong>json</strong>형태로 전달합니다. <strong>comment_wirte_view</strong>에서 성공적으로 응답이 오면 본인 글에 댓글을 작성할시 작성자 옆에 (글쓴이)표시를 하기 위해서 self_comment의 여부를 확인하고 hidden type으로 설정해둔 <strong>comment_list</strong>에 적절한 html을 append시킵니다. </p>
+<h2 id="8-댓글삭제-templates-작성"><a href="#8-댓글삭제-templates-작성" class="headerlink" title="8. 댓글삭제 templates 작성"></a>8. 댓글삭제 templates 작성</h2><p>댓글 삭제를 위한 Script는 아래와 같습니다. 사용자가 댓글 삭제를 클릭할 시 confirm 창으로 삭제여부를 확인하고 <strong>comment_delete_view</strong>에서 본인의 댓글인지 확인 후 성공적으로 삭제가 되었을시 templates에서 응답을 받아 replaceWith메소드를 통해 삭제된 댓글입니다.라는 표시를 하게 됩니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;free&#x2F;free_detail.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">    function commentDelete(value) &#123;</span><br><span class="line">        var comment_id &#x3D; value;</span><br><span class="line">        var delete_warning &#x3D; confirm(&#39;댓글을 삭제하시겠습니까?&#39;);</span><br><span class="line">        if (delete_warning &#x3D;&#x3D; true) &#123;</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                type: &quot;POST&quot;,</span><br><span class="line">                url: &quot;&#123;% url &#39;free:comment_delete&#39; free.id %&#125;&quot;,</span><br><span class="line">                dataType: &quot;json&quot;,</span><br><span class="line">                data: &#123;</span><br><span class="line">                    &#39;comment_id&#39;: comment_id,</span><br><span class="line">                    &#39;csrfmiddlewaretoken&#39;: &#39;&#123;&#123;csrf_token&#125;&#125;&#39;,</span><br><span class="line">                &#125;,</span><br><span class="line">                success: function (response) &#123;</span><br><span class="line">                    $(&#39;#&#39;+response.comment_id).replaceWith(&#39;&lt;span style&#x3D;&quot;color:gray;&quot;&gt;삭제된 댓글입니다.&lt;&#x2F;span&gt;&lt;hr&gt;&#39;);</span><br><span class="line">                &#125;,</span><br><span class="line">                error: function () &#123;</span><br><span class="line">                    alert(&#39;본인 댓글이 아닙니다.&#39;);</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="9-결과"><a href="#9-결과" class="headerlink" title="9. 결과"></a>9. 결과</h2><p><img src="26-1.GIF" alt="django-project-26"></p>
+<p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
+<hr>
+
+
+                
+                    <section>
+                        <div class="tags">
+                        
+                            <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                            
+                            <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                        </div>
+                    </section>
+                
+                <!-- <hr> -->
+                <!-- Pager -->
+                <!-- <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2020/04/13/django-project-25/" data-toggle="tooltip" data-placement="top" title="Django 25. 업로드(MEDIA) 파일 동시 수정 / 삭제 구현">다음게시글&nbsp;<i class="fas fa-chevron-right"></i></a>
+                    </li>
+                    
+                </ul> -->
+
+                <!-- tip start -->
+                
+
+                
+                <!-- tip end -->
+
+                <!-- Music start-->
+                
+                <!-- Music end -->
+
+                <!-- Sharing -->
+                
+                <!-- Sharing -->
+
+                <!-- gitment start -->
+                
+                <!-- gitment end -->
+
+                <!-- 来必力City版安装代码 -->
+                
+                <!-- City版安装代码已完成 -->
+
+                <!-- disqus comment start -->
+                
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                
+                <!-- disqus comment end -->
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        <!-- <strong class="toc-title">목차</strong> -->
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django-26-댓글-쓰기-삭제-구현-AJAX"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django 26. 댓글 쓰기 &#x2F; 삭제 구현 (AJAX)</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-댓글-models-py-작성"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. 댓글 models.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-admin-py-작성"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. admin.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-댓글쓰기-views-py-작성"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. 댓글쓰기 views.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-댓글삭제-views-py-작성"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. 댓글삭제 views.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-urls-py-작성"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. urls.py 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-댓글표시-templates-작성"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. 댓글표시 templates 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-댓글쓰기-AJAX-Script-작성"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">7. 댓글쓰기 AJAX Script 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#8-댓글삭제-templates-작성"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">8. 댓글삭제 templates 작성</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#9-결과"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">9. 결과</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+
+      <script>
+        document.getElementsByClassName('toc-nav-text')[0].setAttribute('style','font-weight:550;')
+        var tocNum = document.getElementsByClassName('toc-nav-number').length;
+        for(var i=0; i<tocNum; i++) {
+          document.getElementsByClassName('toc-nav-number')[i].setAttribute('hidden', true)
+        }
+      </script>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                <!-- 
+                <section>
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                        
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                    </div>
+                </section>
+                 -->
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<!-- disqus embedded js code start (one page only need to embed once) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "today-log";
+    var disqus_identifier = "https://parkhyeonchae.github.io/2020/04/18/django-project-26/";
+    var disqus_url = "https://parkhyeonchae.github.io/2020/04/18/django-project-26/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus embedded js code start end -->
+
+
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/ParkHyeonChae" rel="external nofollow noopener noreferrer">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; ParkHyeonChae 2020 
+                    <br>
+                    <!-- Powered by 
+                    <a href="https://github.com/dusign/hexo-theme-snail" target="_blank" rel="noopener">
+                        <i>hexo-theme-snail</i>
+                    </a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0"
+                        width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=dusign&repo=hexo-theme-snail&type=star&count=true">
+                    </iframe> -->
+                </p>
+            </div>
+        </div>
+    </div>
+
+</footer>
+
+<!-- jQuery -->
+
+<script src="/js/jquery.min.js"></script>
+
+
+<!-- Bootstrap Core JavaScript -->
+
+<script src="/js/bootstrap.min.js"></script>
+
+
+<!-- Custom Theme JavaScript -->
+
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- Search -->
+
+<script src="/js/search.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("https://parkhyeonchae.github.io/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-160874008-1';
+    var _gaDomain = 'https://parkhyeonchae.github.io/';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- Search -->
+
+    <script type="text/javascript">      
+        var search_path = "search.xml";
+        if (search_path.length == 0) {
+            search_path = "search.xml";
+        }
+    var path = "/" + search_path;
+    searchFunc(path, 'local-search-input', 'local-search-result');
+    </script>
+
+
+<!-- busuanzi -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+	<!-- <a id="rocket" href="#top" class=""></a> -->
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async></script>
+
+    
+        <!-- background effects line -->
+        
+
+        
+
+        <!-- background effects end -->
+    
+
+    <!--<script size="50" alpha='0.3' zIndex="-999" src="/js/ribbonStatic.js"></script>-->
+    
+        <!-- <script src="/js/ribbonDynamic.js"></script> -->
+    
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+
+</html>
