@@ -274,21 +274,17 @@
 <p>Ajax를 사용하여 게시글에 댓글을 달고, 삭제하는 기능을 구현합니다.</p>
 </blockquote>
 <hr>
-<p>게시글에 댓글달기를 구현하기에 앞서 이전의 포스팅에서는 공지사항 앱인 <strong>notice app</strong>을 활용하여 포스팅을 진행하였습니다. 하지만 공지사항에는 댓글을 달 수 없도록 설정하였기에 이 프로젝트에서는 자유롭게 게시글을 작성하고 소통할 수 있는 자유게시판 앱을 추가하였습니다. 구현 방법은 공지사항 앱과 같으며 <strong>free</strong>란 <strong>app</strong>을 생성했다는 가정하에 포스팅을 진행하겠습니다. 댓글 포스팅은 총 3개로 나누어 포스팅할 예정입니다. 기본적인 구현 로직은 다음과 같습니다.</p>
-<p><strong>level0 개발자, level1 관리자 : 모든 댓글의 입력, 삭제, 모든 답글의 입력, 삭제</strong> </p>
-<p><strong>level2 사용자 : 댓글의 입력, 답글의 입력 (본인 글일시 댓글의 입력, 삭제, 답글의 입력, 삭제)</strong></p>
+<p>게시글에 댓글달기를 구현하기에 앞서 이전의 포스팅에서는 공지사항 앱인 <strong>notice app</strong>을 활용하여 포스팅을 진행하였습니다. 하지만 공지사항에는 댓글을 달 수 없도록 설정하였기에 이 프로젝트에서는 자유롭게 게시글을 작성하고 소통할 수 있는 자유게시판 앱을 추가하였습니다. 구현 방법은 공지사항 앱과 같으며 <strong>free</strong>란 <strong>app</strong>을 생성했다는 가정하에 포스팅을 진행하겠습니다. 댓글 포스팅은 총 2개로 나누어 포스팅할 예정입니다. 기본적인 구현 로직은 다음과 같습니다.</p>
+<p><strong>level0 개발자, level1 관리자 : 모든 댓글의 입력, 삭제</strong> </p>
+<p><strong>level2 사용자 : 댓글의 입력 (본인 글일시 댓글의 입력, 삭제)</strong></p>
 <ol>
-<li><strong>본인의 글일시 댓글과 답글에 (글쓴이) 표시를 한다.</strong></li>
-<li><strong>답글작성은 댓글에서만 가능하다. (답글에 답글불가)</strong></li>
-<li><strong>댓글과 답글 작성, 삭제시 그 갯수를 동적으로 표시한다.</strong></li>
-<li><strong>본 게시글이 삭제될시 댓글과 답글은 DB상에서 삭제된다.</strong></li>
-<li><strong>댓글과 답글 삭제시 DB상에서 내용은 보존한다.</strong></li>
-<li><strong>댓글과 답글 삭제시 삭제된 댓글이라는 표시를 한다.</strong></li>
-<li><strong>답글이 있는 댓글을 삭제해도 그 답글은 보존한다.</strong></li>
-<li><strong>답글의 입력창은 답글이 입력되는 위치에 동적으로 생성한다. (다른곳을 Click시 입력창 삭제)</strong></li>
-<li><strong>댓글과 답글 입력, 삭제는 비동기로 구현한다.</strong></li>
+<li><strong>본인의 글일시 댓글에 (글쓴이) 표시를 한다.</strong></li>
+<li><strong>댓글 작성, 삭제시 그 갯수를 동적으로 표시한다.</strong></li>
+<li><strong>본 게시글이 삭제될시 댓글은 DB상에서 삭제된다.</strong></li>
+<li><strong>댓글 삭제시 DB상에서 내용은 보존한다.</strong></li>
+<li><strong>댓글 삭제시 삭제된 댓글이라는 표시를 한다.</strong></li>
+<li><strong>댓글 입력, 삭제는 비동기로 구현한다.</strong></li>
 </ol>
-<p><em>*이번 포스팅에서는 Ajax를 사용한 댓글쓰기와 댓글삭제를 구현하겠습니다.</em></p>
 <h2 id="1-댓글-models-py-작성"><a href="#1-댓글-models-py-작성" class="headerlink" title="1. 댓글 models.py 작성"></a>1. 댓글 models.py 작성</h2><p>댓글을 작성하기 위한 models을 생성하기 위해 적용할 게시판앱의 models.py에 아래의 Comment 클래스를 추가합니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># free&#x2F;models.py</span><br><span class="line"></span><br><span class="line">class Comment(models.Model):</span><br><span class="line">    post &#x3D; models.ForeignKey(Free, on_delete&#x3D;models.CASCADE, verbose_name&#x3D;&#39;게시글&#39;)</span><br><span class="line">    writer &#x3D; models.ForeignKey(settings.AUTH_USER_MODEL, on_delete&#x3D;models.SET_NULL, null&#x3D;True, verbose_name&#x3D;&#39;댓글작성자&#39;)</span><br><span class="line">    content &#x3D; models.TextField(verbose_name&#x3D;&#39;댓글내용&#39;)</span><br><span class="line">    created &#x3D; models.DateTimeField(auto_now_add&#x3D;True, verbose_name&#x3D;&#39;작성일&#39;)</span><br><span class="line">    deleted &#x3D; models.BooleanField(default&#x3D;False, verbose_name&#x3D;&#39;삭제여부&#39;)</span><br><span class="line">    </span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.content</span><br><span class="line"></span><br><span class="line">    class Meta:</span><br><span class="line">        db_table &#x3D; &#39;자유게시판 댓글&#39;</span><br><span class="line">        verbose_name &#x3D; &#39;자유게시판 댓글&#39;</span><br><span class="line">        verbose_name_plural &#x3D; &#39;자유게시판 댓글&#39;</span><br></pre></td></tr></table></figure>
 <p>댓글을 작성할 게시글 필드인 post와 댓글작성자 필드인 wirter는 <strong>ForeignKey</strong>관계로 설정합니다. 작성된 댓글을 삭제할 시 ‘삭제된 댓글입니다.’ 로 표시하기 위해 <strong>deleted</strong> 필드를 추가합니다.</p>
@@ -313,6 +309,7 @@
 <h2 id="8-댓글삭제-templates-작성"><a href="#8-댓글삭제-templates-작성" class="headerlink" title="8. 댓글삭제 templates 작성"></a>8. 댓글삭제 templates 작성</h2><p>댓글 삭제를 위한 Script는 아래와 같습니다. 사용자가 댓글 삭제를 클릭할 시 confirm 창으로 삭제여부를 확인하고 <strong>comment_delete_view</strong>에서 본인의 댓글인지 확인 후 성공적으로 삭제가 되었을시 templates에서 응답을 받아 replaceWith메소드를 통해 삭제된 댓글입니다.라는 표시를 하게 됩니다.</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- templates&#x2F;free&#x2F;free_detail.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">    function commentDelete(value) &#123;</span><br><span class="line">        var comment_id &#x3D; value;</span><br><span class="line">        var delete_warning &#x3D; confirm(&#39;댓글을 삭제하시겠습니까?&#39;);</span><br><span class="line">        if (delete_warning &#x3D;&#x3D; true) &#123;</span><br><span class="line">            $.ajax(&#123;</span><br><span class="line">                type: &quot;POST&quot;,</span><br><span class="line">                url: &quot;&#123;% url &#39;free:comment_delete&#39; free.id %&#125;&quot;,</span><br><span class="line">                dataType: &quot;json&quot;,</span><br><span class="line">                data: &#123;</span><br><span class="line">                    &#39;comment_id&#39;: comment_id,</span><br><span class="line">                    &#39;csrfmiddlewaretoken&#39;: &#39;&#123;&#123;csrf_token&#125;&#125;&#39;,</span><br><span class="line">                &#125;,</span><br><span class="line">                success: function (response) &#123;</span><br><span class="line">                    $(&#39;#&#39;+response.comment_id).replaceWith(&#39;&lt;span style&#x3D;&quot;color:gray;&quot;&gt;삭제된 댓글입니다.&lt;&#x2F;span&gt;&lt;hr&gt;&#39;);</span><br><span class="line">                &#125;,</span><br><span class="line">                error: function () &#123;</span><br><span class="line">                    alert(&#39;본인 댓글이 아닙니다.&#39;);</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="9-결과"><a href="#9-결과" class="headerlink" title="9. 결과"></a>9. 결과</h2><p><img src="26-1.GIF" alt="django-project-26"></p>
+<p>*본 프로젝트에서는 댓글에 답글쓰기 기능이 추가되어 있으나 Django 포스팅과 성격이 달라 따로 포스팅하지 않았습니다. 제 Github에 답글쓰기 소스가 있으니 참고하시길 바랍니다. </p>
 <p><em>*전체 html, css 등은 자세하게 포스팅하지 않습니다. 제 <a href="https://github.com/ParkHyeonChae/Re-Born-Web" target="_blank" rel="external nofollow noopener noreferrer">Github</a>에서 소스를 확인하실 수 있습니다.</em></p>
 <hr>
 
@@ -325,12 +322,18 @@
                             
                             <a class="tag" href="/tags/#Python" title="Python">Python</a>
                             
+                            <a class="tag" href="/tags/#Ajax" title="Ajax">Ajax</a>
+                            
                         </div>
                     </section>
                 
                 <!-- <hr> -->
                 <!-- Pager -->
                 <!-- <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2020/05/04/django-project-27/" data-toggle="tooltip" data-placement="top" title="Django 27. 댓글접기 / 펼치기, 댓글수 표시 구현"><i class="fas fa-chevron-left"></i>&nbsp;이전게시글</a>
+                    </li>
                     
                     
                     <li class="next">
@@ -409,6 +412,8 @@
                           <a class="tag" href="/tags/#Django" title="Django">Django</a>
                         
                           <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                          <a class="tag" href="/tags/#Ajax" title="Ajax">Ajax</a>
                         
                     </div>
                 </section>
